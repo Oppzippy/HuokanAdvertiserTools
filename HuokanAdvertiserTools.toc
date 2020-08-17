@@ -1,0 +1,15 @@
+## Interface: 80300
+## Title: Huokan Advertiser Tools
+## Notes: Tools for Huokan Boosting Community Advertisers.
+## Author: Oppzippy
+## Version: @project-version@
+## OptionalDeps: Ace3, LibCopyPaste-1.0
+## SavedVariables: HuokanAdvertiserToolsDB
+
+libs.xml
+Locales\locales.xml
+Core.lua
+ModulePrototype.lua
+HuokanMailRecipients.lua
+Options.lua
+Modules\modules.xml
