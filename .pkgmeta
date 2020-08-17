@@ -1,4 +1,4 @@
-package-as: HuokanAdvertiserBalance
+package-as: HuokanAdvertiserTools
 enable-nolib-creation: no
 
 externals:
