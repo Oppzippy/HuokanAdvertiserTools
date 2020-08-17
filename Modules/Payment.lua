@@ -147,7 +147,7 @@ function module:SendPayment()
 		if self:CanSend() then
 			local copper = self:GetCopper()
 			SetSendMailMoney(copper)
-			SendMail(recipient, "HuokanAdvertiserPayment", self:GetDiscordTag())
+			SendMail(recipient, string.format("HuokanAdvertiserPayment %s", self:GetDiscordTag()))
 			self.paymentData.gold = nil
 			self.copper = copper
 			self.recipient = recipient
