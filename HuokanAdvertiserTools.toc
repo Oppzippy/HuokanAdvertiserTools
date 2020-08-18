@@ -13,3 +13,4 @@ ModulePrototype.lua
 HuokanMailRecipients.lua
 Options.lua
 Modules\modules.xml
+Custom.lua
