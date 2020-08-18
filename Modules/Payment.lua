@@ -20,10 +20,9 @@ module.options = {
 		},
 		discordTag = {
 			order = 2,
-			name = L.discord_tag,
+			name = L.discord_name,
 			type = "input",
-			pattern = "^%a+#%d+$",
-			usage = L.discord_tag_usage,
+			usage = L.discord_name_usage,
 		},
 	},
 }
@@ -52,11 +51,10 @@ local paymentUi = {
 			args = {
 				discordTag = {
 					order = 1,
-					name = L.discord_tag,
+					name = L.discord_name,
 					width = "double",
 					type = "input",
-					pattern = "^%a+#%d+$",
-					usage = L.discord_tag_usage,
+					usage = L.discord_name_usage,
 				},
 				gold = {
 					order = 2,
