@@ -162,7 +162,7 @@ end
 function module:MAIL_SEND_SUCCESS()
 	self:UnregisterEvent("MAIL_SEND_SUCCESS")
 	self:UnregisterEvent("MAIL_FAILED")
-	local dateString = date("%Y-%m-%d %I:%M:%S %p")
+	local dateString = date("%Y-%m-%d %I:%M:%S %p %Z")
 	local verificationText = string.format(L.verification_text, GetCoinTextureString(self.copper), self.recipient, dateString)
 	paymentUi.args.verification.args.verificationText.name = verificationText
 	if self.frame then
