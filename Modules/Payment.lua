@@ -107,11 +107,18 @@ function module:OnInitialize()
 	AceConfig:RegisterOptionsTable("HuokanAdvertiserTools_Payment", paymentUi)
 	AceConfigDialog:SetDefaultSize("HuokanAdvertiserTools_Payment", 400, 400)
 	self:RegisterEvent("MAIL_SHOW")
+	self:RegisterEvent("MAIL_CLOSED")
 end
 
 function module:MAIL_SHOW()
 	if self:GetDB().autoShow then
 		self:Show()
+	end
+end
+
+function module:MAIL_CLOSED()
+	if self:GetDB().autoShow then
+		self:Hide()
 	end
 end
 
