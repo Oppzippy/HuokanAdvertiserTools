@@ -15,4 +15,3 @@ externals:
 
 ignore:
   - README.md
-  - CHANGELOG.md
