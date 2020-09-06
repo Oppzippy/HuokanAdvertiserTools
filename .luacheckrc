@@ -43,4 +43,9 @@ globals = {
 	"GetGuildInfo",
 	"IsInGuild",
 	"C_Club",
+	"TradeFrame",
+	"ChatFontNormal",
+	"TradeFrameTradeButton",
+	"GetTradePlayerItemInfo",
+	"GetTradeTargetItemInfo",
 }

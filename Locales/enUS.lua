@@ -21,3 +21,6 @@ L.help_desc = [[
 /hat - Open options
 /hat payment - Open payment module to send payments to Huokan gold collectors.
 ]]
+L.enter_trade_description = "Please enter the purpose of this trade below."
+L.gold_trade = "Gold Trade"
+L.no_options = "This module has no options."
