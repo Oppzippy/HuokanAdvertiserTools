@@ -3,7 +3,7 @@
 ## Notes: Tools for Huokan Boosting Community Advertisers.
 ## Author: Oppzippy
 ## Version: @project-version@
-## OptionalDeps: Ace3, LibCopyPaste-1.0
+## OptionalDeps: Ace3, LibCopyPaste-1.0, LibDeflate
 ## SavedVariables: HuokanAdvertiserToolsDB
 
 libs.xml

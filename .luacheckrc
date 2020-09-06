@@ -36,4 +36,11 @@ globals = {
 	"GetRealmName",
 	"InterfaceOptionsFrame_OpenToCategory",
 	"GetSendMailPrice",
+	"GetTime",
+	"UnitName",
+	"GetNormalizedRealmName",
+	"bit",
+	"GetGuildInfo",
+	"IsInGuild",
+	"C_Club",
 }
