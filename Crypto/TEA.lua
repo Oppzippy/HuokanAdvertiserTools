@@ -12,11 +12,12 @@ end
 local function stringToInts(str)
 	local t = {}
 	for i = 1, #str, 4 do
+		-- Big endian
 		local c1 = string.byte(str:sub(i, i)) or 0
 		local c2 = string.byte(str:sub(i+1, i+1)) or 0
 		local c3 = string.byte(str:sub(i+2, i+2)) or 0
 		local c4 = string.byte(str:sub(i+3, i+3)) or 0
-		local num = bit.lshift(c4, 24) + bit.lshift(c3, 16) + bit.lshift(c2, 8) + c1
+		local num = bit.lshift(c1, 24) + bit.lshift(c2, 16) + bit.lshift(c3, 8) + c4
 		t[#t+1] = num
 	end
 	if (#t % 2) ~= 0 then
@@ -28,10 +29,11 @@ end
 local function intsToString(t)
 	local chars = {}
 	for _, num in ipairs(t) do
-		local c1 = bit.band(num, 0x000000FF)
-		local c2 = bit.rshift(bit.band(num, 0x0000FF00), 8)
-		local c3 = bit.rshift(bit.band(num, 0x00FF0000), 16)
-		local c4 = bit.rshift(bit.band(num, 0xFF000000), 24)
+		-- Big endian
+		local c1 = bit.rshift(bit.band(num, 0xFF000000), 24)
+		local c2 = bit.rshift(bit.band(num, 0x00FF0000), 16)
+		local c3 = bit.rshift(bit.band(num, 0x0000FF00), 8)
+		local c4 = bit.band(num, 0x000000FF)
 		chars[#chars+1] = string.char(c1)
 		chars[#chars+1] = string.char(c2)
 		chars[#chars+1] = string.char(c3)
