@@ -21,13 +21,17 @@ function SuggestedInputWidget:UpdateDisplay()
 end
 
 do
-	local badColor = "|cFFFF0000"
+	local deleteColor = "|cFFCC0000"
+	local badColor = "|cFFFF7766"
 	local goodColor = "|r"
 	local pendingColor = "|cFFAAAAAA"
 
 	local function getColor(expected, actual)
 		if #actual == 1 then
-			return expected == actual and goodColor or badColor
+			if #expected == 1 then
+				return expected == actual and goodColor or badColor
+			end
+			return deleteColor
 		end
 		return #expected == 1 and pendingColor or badColor
 	end
