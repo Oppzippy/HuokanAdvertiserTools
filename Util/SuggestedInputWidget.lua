@@ -17,7 +17,7 @@ end
 function SuggestedInputWidget:UpdateDisplay()
 	local text = self:GetDisplayText()
 	self.fontString:SetText(text)
-	self.frame:SetWidth(self.fontString:GetStringWidth() + 5)
+	self.frame:SetWidth(self.fontString:GetStringWidth() + 8)
 end
 
 do
