@@ -36,4 +36,6 @@ globals = {
 	"GetRealmName",
 	"InterfaceOptionsFrame_OpenToCategory",
 	"GetSendMailPrice",
+	"SendMailNameEditBox",
+	"SendMailSubjectEditBox",
 }
