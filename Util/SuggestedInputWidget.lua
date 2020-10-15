@@ -65,9 +65,9 @@ do
 end
 
 function SuggestedInputWidget:CreateDisplay(target)
-	local frame = CreateFrame("Frame")
+	local frame = CreateFrame("Frame", nil, target, "BackdropTemplate")
 	self.frame = frame
-	frame:SetParent(target)
+	frame:SetFrameStrata("HIGH")
 	frame:SetPoint("TOPLEFT", target, "BOTTOMLEFT")
 	frame:SetSize(target:GetSize())
 	frame:SetBackdrop({
