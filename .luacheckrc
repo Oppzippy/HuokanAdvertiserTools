@@ -38,4 +38,5 @@ globals = {
 	"GetSendMailPrice",
 	"SendMailNameEditBox",
 	"SendMailSubjectEditBox",
+	"SendMailMailButton",
 }

@@ -13,6 +13,5 @@ ModulePrototype.lua
 HuokanMailRecipients.lua
 Options.lua
 Modules\modules.xml
-Util\SuggestedInput.lua
 Util\SuggestedInputWidget.lua
 Custom.lua

@@ -2,8 +2,11 @@ local _, addon = ...
 local SuggestedInputWidget = {}
 addon.SuggestedInputWidget = SuggestedInputWidget
 
+local CallbackHandler = LibStub("CallbackHandler-1.0")
+
 function SuggestedInputWidget.Create(targetWidget)
 	local self = setmetatable({}, { __index = SuggestedInputWidget })
+	self.callbacks = CallbackHandler:New(self)
 	self.targetWidget = targetWidget
 	self:CreateDisplay(targetWidget)
 	return self
@@ -12,6 +15,22 @@ end
 function SuggestedInputWidget:SetText(text)
 	self.text = text
 	self:UpdateDisplay()
+end
+
+function SuggestedInputWidget:IsValid()
+	return self.text == self.targetWidget:GetText()
+end
+
+function SuggestedInputWidget:CheckValidityChange()
+	local isValid = self:IsValid()
+	if isValid and not self.prevIsValid then
+		self.callbacks:Fire("VALID")
+		self.callbacks:Fire("VALIDITY_CHANGE", true)
+	elseif not isValid and self.prevIsValid then
+		self.callbacks:Fire("INVALID")
+		self.callbacks:Fire("VALIDITY_CHANGE", false)
+	end
+	self.prevIsValid = isValid
 end
 
 function SuggestedInputWidget:UpdateDisplay()
@@ -83,6 +102,7 @@ function SuggestedInputWidget:CreateDisplay(target)
 
 	target:HookScript("OnTextChanged", function()
 		self:UpdateDisplay()
+		self:CheckValidityChange()
 	end)
 
 	target:HookScript("OnEditFocusGained", function()

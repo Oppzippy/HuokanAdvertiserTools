@@ -30,6 +30,34 @@ function module:OnInitialize()
 	self.suggestSubject = addon.SuggestedInputWidget.Create(SendMailSubjectEditBox)
 	self.suggestRecipient:SetText("test")
 	self.suggestSubject:SetText(string.format("%s Huokan Community Sale Gold", self:GetDiscordTag()))
+
+	self.suggestRecipient.RegisterCallback(self, "VALIDITY_CHANGE")
+	self.suggestSubject.RegisterCallback(self, "VALIDITY_CHANGE")
+	self:VALIDITY_CHANGE()
+end
+
+function module:VALIDITY_CHANGE()
+	if self.suggestRecipient:IsValid() and self.suggestSubject:IsValid() then
+		SendMailMailButton:Show()
+	else
+		SendMailMailButton:Hide()
+	end
+end
+
+function module:OnValidRecipient()
+	self.isRecipientValid = true
+end
+
+function module:OnValidSubject()
+	self.isSubjectValid = true
+end
+
+function module:OnInvalidRecipient()
+	self.isRecipientValid = false
+end
+
+function module:OnInvalidSubject()
+	self.isSubjectValid = false
 end
 
 function module:GetDiscordTag()
