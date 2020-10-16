@@ -3,7 +3,7 @@ local _, addon = ...
 local Core = addon.Core
 local L = addon.L
 
-local module = Core:NewModule("Payment", addon.ModulePrototype, "AceConsole-3.0", "AceEvent-3.0")
+local module = Core:NewModule("Payment", addon.ModulePrototype, "AceEvent-3.0")
 
 module.options = {
 	name = L.payment,
@@ -23,43 +23,52 @@ module.options = {
 	},
 }
 
+StaticPopupDialogs["HUOKANADVERTISERTOOLS_INVALIDMAIL"] = {
+	text = L.invalid_mail_confirm,
+	button1 = YES,
+	button2 = NO,
+	whileDead = true,
+	hideOnEscape = true,
+	OnAccept = function()
+		module.ignoreValidity = true
+		module:UpdateValidity()
+	end,
+}
+
 module.paymentData = {}
 
 function module:OnInitialize()
 	self.suggestRecipient = addon.SuggestedInputWidget.Create(SendMailNameEditBox)
-	self.suggestSubject = addon.SuggestedInputWidget.Create(SendMailSubjectEditBox)
 	self.suggestRecipient:SetText("test")
+
+	self.suggestSubject = addon.SuggestedInputWidget.Create(SendMailSubjectEditBox)
 	self.suggestSubject:SetText(string.format("%s Huokan Community Sale Gold", self:GetDiscordTag()))
 
-	self.suggestRecipient.RegisterCallback(self, "VALIDITY_CHANGE")
-	self.suggestSubject.RegisterCallback(self, "VALIDITY_CHANGE")
-	self:VALIDITY_CHANGE()
+	self.suggestRecipient.RegisterCallback(self, "VALIDITY_CHANGE", "UpdateValidity")
+	self.suggestSubject.RegisterCallback(self, "VALIDITY_CHANGE", "UpdateValidity")
+
+	self.defaultSendAction = SendMailMailButton:GetScript("OnClick")
+	self.ignoreValidity = false
+	self:RegisterEvent("MAIL_CLOSED")
+
+	self:UpdateValidity()
 end
 
-function module:VALIDITY_CHANGE()
-	if self.suggestRecipient:IsValid() and self.suggestSubject:IsValid() then
-		SendMailMailButton:Show()
+function module:UpdateValidity()
+	if (self.suggestRecipient:IsValid() and self.suggestSubject:IsValid()) or self.ignoreValidity then
+		SendMailMailButton:SetScript("OnClick", self.defaultSendAction)
 	else
-		SendMailMailButton:Hide()
+		SendMailMailButton:SetScript("OnClick", function()
+			StaticPopup_Show("HUOKANADVERTISERTOOLS_INVALIDMAIL")
+		end)
 	end
 end
 
-function module:OnValidRecipient()
-	self.isRecipientValid = true
-end
-
-function module:OnValidSubject()
-	self.isSubjectValid = true
-end
-
-function module:OnInvalidRecipient()
-	self.isRecipientValid = false
-end
-
-function module:OnInvalidSubject()
-	self.isSubjectValid = false
+function module:MAIL_CLOSED()
+	self.ignoreValidity = false
+	self:UpdateValidity()
 end
 
 function module:GetDiscordTag()
-	return self.paymentData.discordTag or module:GetDB().discordTag
+	return self.paymentData.discordTag or self:GetDB().discordTag
 end

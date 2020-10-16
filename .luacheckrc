@@ -39,4 +39,7 @@ globals = {
 	"SendMailNameEditBox",
 	"SendMailSubjectEditBox",
 	"SendMailMailButton",
+	"StaticPopupDialogs",
+	"YES",
+	"NO,
 }

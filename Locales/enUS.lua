@@ -21,3 +21,4 @@ L.help_desc = [[
 /hat - Open options
 /hat payment - Open payment module to send payments to Huokan gold collectors.
 ]]
+L.invalid_mail_confirm = "You are attempting to send mail without following the Huokan advertiser mailing format. Would you like to proceed?"
