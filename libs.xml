@@ -11,5 +11,8 @@
 	<Include file="Libs\AceDB-3.0\AceDB-3.0.xml"/>
 	<Include file="Libs\AceDBOptions-3.0\AceDBOptions-3.0.xml"/>
 	<Include file="Libs\AceEvent-3.0\AceEvent-3.0.xml"/>
+	<Include file="Libs\LibCopyPaste-1.0\LibCopyPaste-1.0.xml"/>
+	<Include file="Libs\LibJSON\LibJSON.xml"/>
+	<Include file="Libs\LibBase64\LibBase64.xml"/>
 	@end-non-debug@-->
 </Ui>

@@ -36,4 +36,12 @@ globals = {
 	"GetRealmName",
 	"InterfaceOptionsFrame_OpenToCategory",
 	"GetSendMailPrice",
+	"QueryGuildBankLog",
+	"GetGuildBankMoneyTransaction",
+	"MAX_GUILDBANK_TABS",
+	"UnitName",
+	"GetNumGuildBankMoneyTransactions",
+	"Ambiguate",
+	"GetGuildInfo",
+	"GetNormalizedRealmName",
 }

@@ -12,6 +12,10 @@ externals:
   Libs/AceDBOptions-3.0: https://repos.curseforge.com/wow/ace3/trunk/AceDBOptions-3.0
   Libs/AceGUI-3.0: https://repos.curseforge.com/wow/ace3/trunk/AceGUI-3.0
   Libs/AceEvent-3.0: https://repos.curseforge.com/wow/ace3/trunk/AceEvent-3.0
+  Libs/LibCSV-1.0: git://github.com/Oppzippy/LibCSV.git
+  Libs/LibCopyPaste-1.0: git://github.com/Oppzippy/LibCopyPaste.git
+  Libs/LibBase64: git://github.com/Oppzippy/lbase64.git
+  Libs/LibJSON: git://github.com/Oppzippy/json.lua.git
 
 ignore:
   - README.md
