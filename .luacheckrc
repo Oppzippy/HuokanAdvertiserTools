@@ -44,4 +44,5 @@ globals = {
 	"Ambiguate",
 	"GetGuildInfo",
 	"GetNormalizedRealmName",
+	"GetTime",
 }

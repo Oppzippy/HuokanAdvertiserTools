@@ -11,11 +11,18 @@ local Core = addon.Core
 
 local module = Core:NewModule("GuildDeposit", addon.ModulePrototype, "AceEvent-3.0")
 
-local HISTORY_SIZE = 3
+local HISTORY_SIZE = 20
 
 function module:OnInitialize()
 	self:RegisterEvent("GUILDBANK_UPDATE_WITHDRAWMONEY")
 	self:RegisterEvent("GUILDBANKLOG_UPDATE")
+
+	hooksecurefunc("DepositGuildBankMoney", function(copper)
+		self.expectedDeposit = {
+			time = GetTime(),
+			copper = copper,
+		}
+	end)
 end
 
 function module:GUILDBANK_UPDATE_WITHDRAWMONEY()
@@ -24,52 +31,54 @@ function module:GUILDBANK_UPDATE_WITHDRAWMONEY()
 end
 
 function module:GUILDBANKLOG_UPDATE()
-	if self.isDepositQueued then
-		self.isDepositQueued = false
+	if self.expectedDeposit and GetTime() - self.expectedDeposit.time < 10 then
 		local numTransactions = GetNumGuildBankMoneyTransactions()
 		if numTransactions > 0 then
-			local transactionType, unitName = GetGuildBankMoneyTransaction(numTransactions)
-			if transactionType == "deposit" and unitName == UnitName("player") then
-				self:LogTransaction(numTransactions)
+			local transactionType, unitName, money = GetGuildBankMoneyTransaction(numTransactions)
+			if transactionType == "deposit" then
+				if unitName == UnitName("player") and money == self.expectedDeposit.copper then
+					self:LogDeposit(numTransactions)
+					self.expectedDeposit = nil
+				end
 			end
 		end
 	end
 end
 
-function module:LogTransaction(transationIndex)
-	local previousTransactions = {}
-	local i = transationIndex - 1
-	while i > 0 and #previousTransactions < HISTORY_SIZE do
-		previousTransactions[#previousTransactions+1] = self:GetPreviousTransaction(i)
+function module:LogDeposit(transactionIndex)
+	local previousDeposits = {}
+	local i = transactionIndex - 1
+	while i > 0 and #previousDeposits < HISTORY_SIZE do
+		previousDeposits[#previousDeposits+1] = self:GetPreviousDeposit(i)
 		i = i - 1
 	end
 
 	local playerRealm = GetNormalizedRealmName()
 	local guildName, _, _, guildRealm = GetGuildInfo("player")
 
-	local transactionData = {
-		latestTransaction = self:GetLatestTransaction(),
-		previousTransactions = previousTransactions,
+	local depositData = {
+		latestDeposit = self:GetLatestDeposit(),
+		previousDeposits = previousDeposits,
 		bankGuild = {
 			name = guildName,
 			realm = guildRealm or playerRealm,
 		},
 	}
-	local json = JSON.encode(transactionData)
+	local json = JSON.encode(depositData)
 	local compressed = LibDeflate:CompressDeflate(json)
 	LibCopyPaste:Copy(L.addon_name, Base64.encode(compressed))
 end
 
-function module:GetLatestTransaction()
+function module:GetLatestDeposit()
 	local index = GetNumGuildBankMoneyTransactions()
-	local transaction = self:GetPreviousTransaction(index)
-	if transaction then
-		transaction.timestamp = date("!%Y-%m-%dT%TZ", GetServerTime()) -- ISO 8601
-		return transaction
+	local deposit = self:GetPreviousDeposit(index)
+	if deposit then
+		deposit.timestamp = date("!%Y-%m-%dT%TZ", GetServerTime()) -- ISO 8601
+		return deposit
 	end
 end
 
-function module:GetPreviousTransaction(index)
+function module:GetPreviousDeposit(index)
 	if index < 1 and index > GetNumGuildBankMoneyTransactions() then return end
 
 	local transactionType, unitNameAndRealm, copper = GetGuildBankMoneyTransaction(index)
@@ -82,7 +91,6 @@ function module:GetPreviousTransaction(index)
 				name = unitName,
 				realm = unitRealm or playerRealm,
 			},
-
 			copper = copper,
 		}
 	end
