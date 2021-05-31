@@ -10,7 +10,6 @@ libs.xml
 Locales\locales.xml
 Core.lua
 ModulePrototype.lua
-HuokanMailRecipients.lua
 Options.lua
 Modules\modules.xml
 Custom.lua
