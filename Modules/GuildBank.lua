@@ -156,6 +156,7 @@ end
 
 function module:RenderDeposit(deposit)
 	local container = AceGUI:Create("InlineGroup")
+	-- TODO convert to eastern time
 	container:SetTitle(date("!%Y-%m-%d %I:%M%p UTC", deposit.timestamp))
 	container:SetLayout("Flow")
 
