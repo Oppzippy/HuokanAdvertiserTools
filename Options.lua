@@ -17,8 +17,8 @@ addon.options = {
 
 addon.dbDefaults = {
 	profile = {
-		Payment = {
-			autoShow = true,
-		}
+		GuildBank = {
+			deposits = {},
+		},
 	}
 }

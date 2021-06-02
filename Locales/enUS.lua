@@ -19,5 +19,9 @@ L.help = "Help"
 L.help_desc = [[
 
 /hat - Open options
-/hat payment - Open payment module to send payments to Huokan gold collectors.
 ]]
+L.huokan_bank_deposits_for_user = "%s's Huokan Bank Deposits"
+L.deposit_timed_out = "Guild bank deposit timed out."
+L.failed_to_verify_gold_change = "Failed to verify gold change."
+L.failed_to_verify_deposit = "Failed to verify deposit."
+L.guild_bank_deposit = "%s deposited into %s by %s"
