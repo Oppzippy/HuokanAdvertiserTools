@@ -85,13 +85,15 @@ do
 			Core:Print(L.failed_to_verify_gold_change)
 			return
 		end
+		local deposit = self.deposit
+		self.deposit = nil
 
 		local character = getCharacterNameAndRealm()
 		local guild = getGuildNameAndRealm()
 		local db = self:GetDB()
 		db.deposits[#db.deposits+1] = {
 			timestamp = GetServerTime(),
-			copper = self.deposit.copper,
+			copper = deposit.copper,
 			character = character,
 			guild = guild,
 		}
@@ -140,14 +142,24 @@ function module:CreateScrollFrame()
 end
 
 function module:RenderDeposits()
+	if not self.frames.frame then return end
+
 	local db = self:GetDB()
 	-- Don't re-run layout every time a widget is added during the loop
 	self.frames.scrollFrame:PauseLayout()
 	self.frames.scrollFrame:ReleaseChildren()
-	for i = #db.deposits, 1, -1 do
+	local numDeposits = #db.deposits
+	for i = numDeposits, 1, -1 do
 		local deposit = db.deposits[i]
 		local frame = self:RenderDeposit(deposit)
 		frame:SetFullWidth(true)
+
+		if i == numDeposits then
+			frame:AddChild(self:RenderNote(deposit))
+		elseif deposit.note and deposit.note ~= "" then
+			frame:AddChild(self:RenderUnmodifiableNote(deposit))
+		end
+
 		self.frames.scrollFrame:AddChild(frame)
 	end
 	self.frames.scrollFrame:ResumeLayout()
@@ -170,4 +182,25 @@ function module:RenderDeposit(deposit)
 	container:AddChild(label)
 
 	return container
+end
+
+function module:RenderNote(deposit)
+	local note = AceGUI:Create("EditBox")
+	note:SetLabel(L.note)
+	note:SetText(deposit.note or "")
+	note:SetCallback("OnEnterPressed", function(_, _, 	text)
+		deposit.note = text
+	end)
+	note:SetFullWidth(true)
+	return note
+end
+
+function module:RenderUnmodifiableNote(deposit)
+	local note = AceGUI:Create("Label")
+	if deposit.note then
+		local noteFormat = "|cFFFFD100%s|r: %s"
+		note:SetText(noteFormat:format(L.note, deposit.note) or "")
+	end
+	note:SetFullWidth(true)
+	return note
 end
