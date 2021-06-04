@@ -90,8 +90,8 @@ do
 
 		local character = getCharacterNameAndRealm()
 		local guild = getGuildNameAndRealm()
-		local db = self:GetDB()
-		db.deposits[#db.deposits+1] = {
+		local globalDB = self:GetGlobalDB()
+		globalDB.deposits[#globalDB.deposits+1] = {
 			timestamp = GetServerTime(),
 			copper = deposit.copper,
 			character = character,
@@ -115,7 +115,7 @@ function module:ShowUI()
 	frame:SetHeight(600)
 	frame:EnableResize(true)
 	frame:SetLayout("flow")
-	frame:SetTitle(L.huokan_bank_deposits_for_user:format(addon.discordName or "Unknown"))
+	frame:SetTitle(L.huokan_bank_deposits_for_user:format(addon.discordTag or "Unknown"))
 
 	self.frames.scrollContainer, self.frames.scrollFrame = self:CreateScrollFrame()
 	self:RenderDeposits()
@@ -144,13 +144,13 @@ end
 function module:RenderDeposits()
 	if not self.frames.frame then return end
 
-	local db = self:GetDB()
+	local globalDB = self:GetGlobalDB()
 	-- Don't re-run layout every time a widget is added during the loop
 	self.frames.scrollFrame:PauseLayout()
 	self.frames.scrollFrame:ReleaseChildren()
-	local numDeposits = #db.deposits
+	local numDeposits = #globalDB.deposits
 	for i = numDeposits, 1, -1 do
-		local deposit = db.deposits[i]
+		local deposit = globalDB.deposits[i]
 		local frame = self:RenderDeposit(deposit)
 		frame:SetFullWidth(true)
 

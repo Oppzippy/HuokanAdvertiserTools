@@ -32,11 +32,8 @@ function Core:UpdateOptions()
 	end
 end
 
-function Core:GetDB(module)
-	if not self.db.profile[module] then
-		self.db.profile[module] = {}
-	end
-	return self.db.profile[module]
+function Core:GetDB(module, dbType)
+	return self.db[dbType][module]
 end
 
 function Core:SlashCmd(args)
