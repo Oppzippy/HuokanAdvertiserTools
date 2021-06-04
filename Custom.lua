@@ -1,2 +1,3 @@
--- luacheck: ignore addon
 local _, addon = ...
+
+addon.discordTag = "DiscordName#1234"
