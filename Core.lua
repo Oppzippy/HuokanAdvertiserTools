@@ -37,10 +37,10 @@ function Core:GetDB(module, dbType)
 end
 
 function Core:SlashCmd(args)
-	if args == "" then
-		InterfaceOptionsFrame_OpenToCategory(L.addon_name)
-	elseif args == "?" or args == "help" then
+	if args == "" or args == "?" or args == "help" then
 		self:Print(L.help_desc)
+	elseif args == "options" then
+		InterfaceOptionsFrame_OpenToCategory(L.addon_name)
 	else
 		local module = self:GetModuleBySlashCmd(args)
 		if module and module.Show then

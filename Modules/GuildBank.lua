@@ -26,11 +26,11 @@ function module:OnInitialize()
 end
 
 function module:GUILDBANKFRAME_OPENED()
-	self:ShowUI()
+	self:Show()
 end
 
 function module:GUILDBANKFRAME_CLOSED()
-	self:HideUI()
+	self:Hide()
 end
 
 -- GUILDBANK_UPDATE_WITHDRAWMONEY and PLAYER_MONEY may be called in any order,
@@ -101,15 +101,15 @@ do
 	end
 end
 
-function module:ShowUI()
+function module:Show()
 	if self.frames.frame then
-		self:HideUI()
+		self:Hide()
 	end
 
 	local frame = AceGUI:Create("Window")
 	self.frames.frame = frame
 	frame:SetCallback("OnClose", function()
-		self:HideUI()
+		self:Hide()
 	end)
 	frame:SetWidth(400)
 	frame:SetHeight(600)
@@ -123,11 +123,15 @@ function module:ShowUI()
 	frame:AddChild(self.frames.scrollContainer)
 end
 
-function module:HideUI()
+function module:Hide()
 	if self.frames.frame then
 		self.frames.frame:Release()
 		self.frames = {}
 	end
+end
+
+function module:IsVisible()
+	return self.frames.frame ~= nil
 end
 
 function module:CreateScrollFrame()

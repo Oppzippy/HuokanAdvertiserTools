@@ -6,7 +6,9 @@ L.profiles = "Profiles"
 L.help = "Help"
 L.help_desc = [[
 
-/hat - Open options
+/hat - Show help
+/hat options - Open options
+/hat guildbank - Show guild bank deposit log
 ]]
 -- GuildBank module
 L.huokan_bank_deposits_for_user = "%s's Huokan Bank Deposits"
