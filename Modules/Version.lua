@@ -12,7 +12,10 @@ function module:OnInitialize()
 end
 
 function module:PLAYER_ENTERING_WORLD()
-	self:SendCommMessage(COMM_PREFIX, tostring(VERSION), "GUILD")
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+	if IsInGuild() then
+		self:SendCommMessage(COMM_PREFIX, tostring(VERSION), "GUILD")
+	end
 end
 
 function module:OnCommReceived(_, message, channel, sender)

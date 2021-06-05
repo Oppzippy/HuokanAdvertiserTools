@@ -47,4 +47,5 @@ globals = {
 	"GetTime",
 	"GetGuildBankMoney",
 	"GetAddOnMetadata",
+	"IsInGuild",
 }
