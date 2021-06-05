@@ -9,9 +9,6 @@ local GOLD_CAP = 99999999999
 function module:OnInitialize()
 	self.frames = {}
 
-	self:RegisterEvent("PLAYER_ENTERING_WORLD", "UpdateGuild")
-	self:RegisterEvent("PLAYER_GUILD_UPDATE", "UpdateGuild")
-
 	self:RegisterEvent("GUILDBANKFRAME_OPENED")
 	self:RegisterEvent("GUILDBANKFRAME_CLOSED")
 	self:RegisterEvent("GUILDBANK_UPDATE_WITHDRAWMONEY")
@@ -28,19 +25,19 @@ function module:OnInitialize()
 	end)
 end
 
-function module:UpdateGuild()
+function module:IsInCommunityGuild()
 	local guildName = GetGuildInfo("player")
-	self.isInCommunityGuild = guildName:find("Huokan") ~= nil
+	return guildName and guildName:find("Huokan") ~= nil
 end
 
 function module:GUILDBANKFRAME_OPENED()
-	if self.isInCommunityGuild then
+	if self:IsInCommunityGuild() then
 		self:Show()
 	end
 end
 
 function module:GUILDBANKFRAME_CLOSED()
-	if self.isInCommunityGuild then
+	if self:IsInCommunityGuild() then
 		self:Hide()
 	end
 end
@@ -85,7 +82,7 @@ do
 	end
 
 	function module:ProcessDeposit()
-		if not self.isInCommunityGuild then return end
+		if not self:IsInCommunityGuild() then return end
 		if not self.deposit.verified then
 			Core:Print(L.failed_to_verify_deposit)
 			return
