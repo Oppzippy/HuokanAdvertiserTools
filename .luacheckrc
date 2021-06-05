@@ -46,4 +46,5 @@ globals = {
 	"GetNormalizedRealmName",
 	"GetTime",
 	"GetGuildBankMoney",
+	"GetAddOnMetadata",
 }
