@@ -24,6 +24,7 @@ function Core:OnInitialize()
 	AceConfigDialog:AddToBlizOptions("HuokanAdvertiserToolsProfiles", L.profiles, L.addon_name)
 
 	self:RegisterChatCommand("hat", "SlashCmd")
+	self:RegisterChatCommand("huokanadvertisertools", "SlashCmd")
 end
 
 function Core:UpdateOptions()
