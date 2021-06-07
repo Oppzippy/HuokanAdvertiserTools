@@ -14,3 +14,13 @@ end
 function ModulePrototype:GetSpecificDB(dbType)
 	return addon.Core:GetDB(self:GetName(), dbType)
 end
+
+function ModulePrototype:SlashCmd(args)
+	if self.IsVisible then
+		if self:IsVisible() and self.Show then
+			self:Hide()
+		elseif not self:IsVisible() and self.Hide then
+			self:Show()
+		end
+	end
+end

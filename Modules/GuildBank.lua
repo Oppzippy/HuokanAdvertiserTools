@@ -154,6 +154,24 @@ function module:IsVisible()
 	return self.frames.window ~= nil
 end
 
+function module:SlashCmd(args)
+	if #args == 0 then
+		if self:IsVisible() then
+			self:Hide()
+		else
+			self:Show()
+		end
+	elseif args[1] == "resetui" then
+		self:Hide()
+		local db = self:GetProfileDB()
+		db.ui.status = {
+			width = addon.dbDefaults.profile.GuildBank.ui.status.width,
+			height = addon.dbDefaults.profile.GuildBank.ui.status.height,
+		}
+		self:Show()
+	end
+end
+
 function module:CreateScrollFrame()
 	local scrollContainer = AceGUI:Create("SimpleGroup")
 	scrollContainer:SetFullWidth(true)

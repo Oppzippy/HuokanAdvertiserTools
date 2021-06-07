@@ -38,18 +38,19 @@ function Core:GetDB(module, dbType)
 end
 
 function Core:SlashCmd(args)
-	if args == "" or args == "?" or args == "help" then
+	args = { strsplit(" ", args) }
+	if #args == 0 or args[1] == "?" or args[1] == "help" then
 		self:Print(L.help_desc)
-	elseif args == "options" then
+	elseif args[1] == "options" then
 		InterfaceOptionsFrame_OpenToCategory(L.addon_name)
 	else
-		local module = self:GetModuleBySlashCmd(args)
-		if module and module.Show then
-			if module.Hide and module.IsVisible and module:IsVisible() then
-				module:Hide()
-			else
-				module:Show()
+		local module = self:GetModuleBySlashCmd(args[1])
+		if module then
+			local moduleArgs = {}
+			for i = 2, #args do
+				moduleArgs[i-1] = args[i]
 			end
+			module:SlashCmd(moduleArgs)
 		end
 	end
 end

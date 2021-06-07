@@ -31,7 +31,7 @@ function module:OnCommReceived(_, message, channel, sender)
 	end
 end
 
-function module:Show()
+function module:SlashCmd(args)
 	local versionNumber = GetAddOnMetadata(addonName, "Version")
 	Core:Printf(L.version:format(versionNumber, VERSION))
 end
