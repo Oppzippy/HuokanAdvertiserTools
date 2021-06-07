@@ -123,6 +123,8 @@ function module:Show()
 	end)
 	local db = self:GetProfileDB()
 
+	self:ForceWindowToScreenBounds()
+
 	-- It accepts the reference so the db will be updated directly on status changes
 	window:SetStatusTable(db.ui.status)
 	window:EnableResize(not db.ui.locked)
@@ -134,6 +136,37 @@ function module:Show()
 	self:RenderDeposits()
 
 	window:AddChild(self.frames.scrollContainer)
+end
+
+function module:ForceWindowToScreenBounds()
+	local db = self:GetProfileDB()
+	local maxWidth = UIParent:GetWidth()
+	local maxHeight = UIParent:GetHeight()
+
+	-- wider than screen
+	if db.ui.status.width > maxWidth then
+		db.ui.status.width = maxWidth
+	end
+	-- taller than screen
+	if db.ui.status.height > maxHeight then
+		db.ui.status.height = maxHeight
+	end
+	-- left of screen
+	if db.ui.status.left < 0 then
+		db.ui.status.left = 0
+	end
+	-- right of screen
+	if db.ui.status.left > maxWidth - db.ui.status.width  then
+		db.ui.status.left = maxWidth - db.ui.status.width
+	end
+	-- bottom of screen
+	if db.ui.status.top < db.ui.status.height then
+		db.ui.status.top = db.ui.status.height
+	end
+	-- top of screen
+	if db.ui.status.top > maxHeight then
+		db.ui.status.top = maxHeight
+	end
 end
 
 function module:Hide()

@@ -48,4 +48,5 @@ globals = {
 	"GetGuildBankMoney",
 	"GetAddOnMetadata",
 	"IsInGuild",
+	"UIParent",
 }
