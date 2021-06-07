@@ -20,15 +20,16 @@ module.options = {
 			type = "toggle",
 			order = 2,
 		},
-		isUILocked = {
-			name = L.locked,
+		lockedSize = {
+			name = L.locked_size,
+			desc = L.locked_size_desc,
 			type = "toggle",
 			order = 3,
-			set = function(_, isUILocked)
+			set = function(_, lockedSize)
 				local db = module:GetProfileDB()
-				db.isUILocked = isUILocked
+				db.lockedSize = lockedSize
 				if module.frames.window then
-					module.frames.window:EnableResize(not isUILocked)
+					module.frames.window:EnableResize(not lockedSize)
 				end
 			end,
 		},
@@ -158,7 +159,7 @@ function module:Show()
 
 	-- It accepts the reference so the db will be updated directly on status changes
 	window:SetStatusTable(db.uiStatus)
-	window:EnableResize(not db.isUILocked)
+	window:EnableResize(not db.lockedSize)
 
 	window:SetLayout("flow")
 	window:SetTitle(L.huokan_bank_deposits_for_user:format(addon.discordTag or "Unknown"))

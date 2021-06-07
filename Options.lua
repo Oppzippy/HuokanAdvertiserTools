@@ -22,7 +22,7 @@ addon.dbDefaults = {
 				width = 400,
 				height = 600,
 			},
-			isUILocked = false,
+			lockedSize = false,
 			autoShow = true,
 			autoHide = true,
 		},
