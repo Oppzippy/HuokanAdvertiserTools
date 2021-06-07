@@ -39,7 +39,7 @@ end
 
 function Core:SlashCmd(args)
 	args = { strsplit(" ", args) }
-	if #args == 0 or args[1] == "?" or args[1] == "help" then
+	if args[1] == "" or args[1] == "?" or args[1] == "help" then
 		self:Print(L.help_desc)
 	elseif args[1] == "options" then
 		InterfaceOptionsFrame_OpenToCategory(L.addon_name)
