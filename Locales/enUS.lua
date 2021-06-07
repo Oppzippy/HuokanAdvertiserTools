@@ -6,10 +6,11 @@ L.profiles = "Profiles"
 L.help = "Help"
 L.help_desc = [[
 
-/hat - Show help
+/hat help - Show help
 /hat options - Open options
 /hat version - Check what version of Huokan Advertiser Tools is installed
 /hat guildbank - Show guild bank deposit log
+/hat guildbank resetui - Reset the position of the guild bank deposit log UI to the center of the screen
 ]]
 -- GuildBank module
 L.huokan_bank_deposits_for_user = "%s's Huokan Bank Deposits"
