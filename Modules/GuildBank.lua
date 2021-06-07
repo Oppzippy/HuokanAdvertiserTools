@@ -2,7 +2,7 @@ local _, addon = ...
 local AceGUI = LibStub("AceGUI-3.0")
 
 local Core, L = addon.Core, addon.L
-local module = Core:NewModule("GuildBank", addon.ModulePrototype, "AceEvent-3.0")
+local module = Core:NewModule("GuildBank", addon.ModulePrototype, "AceEvent-3.0", "AceConsole-3.0")
 
 local GOLD_CAP = 99999999999
 
@@ -112,36 +112,46 @@ do
 end
 
 function module:Show()
-	if self.frames.frame then
+	if self.frames.window then
 		self:Hide()
 	end
 
-	local frame = AceGUI:Create("Window")
-	self.frames.frame = frame
-	frame:SetCallback("OnClose", function()
+	local window = AceGUI:Create("Window")
+	self.frames.window = window
+	window:SetCallback("OnClose", function()
 		self:Hide()
 	end)
-	frame:SetWidth(400)
-	frame:SetHeight(600)
-	frame:EnableResize(true)
-	frame:SetLayout("flow")
-	frame:SetTitle(L.huokan_bank_deposits_for_user:format(addon.discordTag or "Unknown"))
+	local db = self:GetProfileDB()
+
+	-- It accepts the reference so the db will be updated directly on status changes
+	window:SetStatusTable(db.ui.status)
+	window:EnableResize(not db.ui.locked)
+
+	window:SetLayout("flow")
+	window:SetTitle(L.huokan_bank_deposits_for_user:format(addon.discordTag or "Unknown"))
 
 	self.frames.scrollContainer, self.frames.scrollFrame = self:CreateScrollFrame()
 	self:RenderDeposits()
 
-	frame:AddChild(self.frames.scrollContainer)
+	window:AddChild(self.frames.scrollContainer)
 end
 
 function module:Hide()
-	if self.frames.frame then
-		self.frames.frame:Release()
+	if self.frames.window then
+		local db = self:GetProfileDB()
+		-- AceGUI's Window doesn't set the status' width and height properties on resize,
+		-- only on move. If the user moves the window before closing it, everything works fine,
+		-- but if the user resizes the window and then closes it, the size data would be lost.
+		db.ui.status.width = self.frames.window.frame:GetWidth()
+		db.ui.status.height = self.frames.window.frame:GetHeight()
+
+		self.frames.window:Release()
 		self.frames = {}
 	end
 end
 
 function module:IsVisible()
-	return self.frames.frame ~= nil
+	return self.frames.window ~= nil
 end
 
 function module:CreateScrollFrame()
@@ -156,7 +166,7 @@ function module:CreateScrollFrame()
 end
 
 function module:RenderDeposits()
-	if not self.frames.frame then return end
+	if not self.frames.window then return end
 
 	local globalDB = self:GetGlobalDB()
 	-- Don't re-run layout every time a widget is added during the loop

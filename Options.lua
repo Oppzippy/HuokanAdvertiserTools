@@ -16,7 +16,17 @@ addon.options = {
 }
 
 addon.dbDefaults = {
-	profile = {},
+	profile = {
+		GuildBank = {
+			ui = {
+				status = {
+					width = 400,
+					height = 600,
+				},
+				locked = false,
+			},
+		},
+	},
 	global = {
 		GuildBank = {
 			deposits = {},
