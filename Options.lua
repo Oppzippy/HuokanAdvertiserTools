@@ -18,13 +18,13 @@ addon.options = {
 addon.dbDefaults = {
 	profile = {
 		GuildBank = {
-			ui = {
-				status = {
-					width = 400,
-					height = 600,
-				},
-				locked = false,
+			uiStatus = {
+				width = 400,
+				height = 600,
 			},
+			isUILocked = false,
+			autoShow = true,
+			autoHide = true,
 		},
 	},
 	global = {

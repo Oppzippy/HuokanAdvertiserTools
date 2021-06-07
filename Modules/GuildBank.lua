@@ -6,6 +6,35 @@ local module = Core:NewModule("GuildBank", addon.ModulePrototype, "AceEvent-3.0"
 
 local GOLD_CAP = 99999999999
 
+module.options = {
+	name = L.guild_bank,
+	type = "group",
+	args = {
+		autoShow = {
+			name = L.auto_show,
+			type = "toggle",
+			order = 1,
+		},
+		autoHide = {
+			name = L.auto_hide,
+			type = "toggle",
+			order = 2,
+		},
+		isUILocked = {
+			name = L.locked,
+			type = "toggle",
+			order = 3,
+			set = function(_, isUILocked)
+				local db = module:GetProfileDB()
+				db.isUILocked = isUILocked
+				if module.frames.window then
+					module.frames.window:EnableResize(not isUILocked)
+				end
+			end,
+		},
+	},
+}
+
 function module:OnInitialize()
 	self.frames = {}
 
@@ -31,13 +60,15 @@ function module:IsInCommunityGuild()
 end
 
 function module:GUILDBANKFRAME_OPENED()
-	if self:IsInCommunityGuild() then
+	local db = self:GetProfileDB()
+	if self:IsInCommunityGuild() and db.autoShow then
 		self:Show()
 	end
 end
 
 function module:GUILDBANKFRAME_CLOSED()
-	if self:IsInCommunityGuild() then
+	local db = self:GetProfileDB()
+	if self:IsInCommunityGuild() and db.autoHide then
 		self:Hide()
 	end
 end
@@ -126,8 +157,8 @@ function module:Show()
 	self:ForceWindowToScreenBounds()
 
 	-- It accepts the reference so the db will be updated directly on status changes
-	window:SetStatusTable(db.ui.status)
-	window:EnableResize(not db.ui.locked)
+	window:SetStatusTable(db.uiStatus)
+	window:EnableResize(not db.isUILocked)
 
 	window:SetLayout("flow")
 	window:SetTitle(L.huokan_bank_deposits_for_user:format(addon.discordTag or "Unknown"))
@@ -144,28 +175,30 @@ function module:ForceWindowToScreenBounds()
 	local maxHeight = UIParent:GetHeight()
 
 	-- wider than screen
-	if db.ui.status.width > maxWidth then
-		db.ui.status.width = maxWidth
+	if db.uiStatus.width > maxWidth then
+		db.uiStatus.width = maxWidth
 	end
 	-- taller than screen
-	if db.ui.status.height > maxHeight then
-		db.ui.status.height = maxHeight
+	if db.uiStatus.height > maxHeight then
+		db.uiStatus.height = maxHeight
 	end
-	-- left of screen
-	if db.ui.status.left < 0 then
-		db.ui.status.left = 0
-	end
-	-- right of screen
-	if db.ui.status.left > maxWidth - db.ui.status.width  then
-		db.ui.status.left = maxWidth - db.ui.status.width
-	end
-	-- bottom of screen
-	if db.ui.status.top < db.ui.status.height then
-		db.ui.status.top = db.ui.status.height
-	end
-	-- top of screen
-	if db.ui.status.top > maxHeight then
-		db.ui.status.top = maxHeight
+	if db.uiStatus.left and db.uiStatus.top then
+		-- left of screen
+		if db.uiStatus.left < 0 then
+			db.uiStatus.left = 0
+		end
+		-- right of screen
+		if db.uiStatus.left > maxWidth - db.uiStatus.width  then
+			db.uiStatus.left = maxWidth - db.uiStatus.width
+		end
+		-- bottom of screen
+		if db.uiStatus.top < db.uiStatus.height then
+			db.uiStatus.top = db.uiStatus.height
+		end
+		-- top of screen
+		if db.uiStatus.top > maxHeight then
+			db.uiStatus.top = maxHeight
+		end
 	end
 end
 
@@ -175,8 +208,8 @@ function module:Hide()
 		-- AceGUI's Window doesn't set the status' width and height properties on resize,
 		-- only on move. If the user moves the window before closing it, everything works fine,
 		-- but if the user resizes the window and then closes it, the size data would be lost.
-		db.ui.status.width = self.frames.window.frame:GetWidth()
-		db.ui.status.height = self.frames.window.frame:GetHeight()
+		db.uiStatus.width = self.frames.window.frame:GetWidth()
+		db.uiStatus.height = self.frames.window.frame:GetHeight()
 
 		self.frames.window:Release()
 		self.frames = {}
@@ -197,9 +230,9 @@ function module:SlashCmd(args)
 	elseif args[1] == "resetui" then
 		self:Hide()
 		local db = self:GetProfileDB()
-		db.ui.status = {
-			width = addon.dbDefaults.profile.GuildBank.ui.status.width,
-			height = addon.dbDefaults.profile.GuildBank.ui.status.height,
+		db.uiStatus = {
+			width = addon.dbDefaults.profile.GuildBank.uiStatus.width,
+			height = addon.dbDefaults.profile.GuildBank.uiStatus.height,
 		}
 		self:Show()
 	end

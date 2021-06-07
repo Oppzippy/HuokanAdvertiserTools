@@ -4,6 +4,9 @@ if not L then return end
 L.addon_name = "Huokan Advertiser Tools"
 L.profiles = "Profiles"
 L.help = "Help"
+L.locked = "Locked"
+L.auto_show = "Auto Show"
+L.auto_hide = "Auto Hide"
 L.help_desc = [[
 
 /hat help - Show help
@@ -13,6 +16,7 @@ L.help_desc = [[
 /hat guildbank resetui - Reset the position of the guild bank deposit log UI to the center of the screen
 ]]
 -- GuildBank module
+L.guild_bank = "Guild Bank"
 L.huokan_bank_deposits_for_user = "%s's Huokan Bank Deposits"
 L.deposit_timed_out = "Guild bank deposit timed out."
 L.failed_to_verify_gold_change = "Failed to verify gold change."
