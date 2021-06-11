@@ -5,6 +5,7 @@ local Core, L = addon.Core, addon.L
 local module = Core:NewModule("GuildBank", addon.ModulePrototype, "AceEvent-3.0", "AceConsole-3.0")
 
 local GOLD_CAP = 99999999999
+local devMode = false
 
 module.options = {
 	name = L.guild_bank,
@@ -57,7 +58,7 @@ end
 
 function module:IsInCommunityGuild()
 	local guildName = GetGuildInfo("player")
-	return guildName and guildName:find("Huokan") ~= nil
+	return (guildName and guildName:find("Huokan") ~= nil) or devMode
 end
 
 function module:GUILDBANKFRAME_OPENED()
@@ -313,3 +314,7 @@ function module:RenderUnmodifiableNote(deposit)
 	note:SetFullWidth(true)
 	return note
 end
+
+--@do-not-package@
+devMode = true
+--@end-do-not-package@
