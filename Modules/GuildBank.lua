@@ -5,7 +5,6 @@ local Core, L = addon.Core, addon.L
 local module = Core:NewModule("GuildBank", addon.ModulePrototype, "AceEvent-3.0", "AceConsole-3.0")
 
 local GOLD_CAP = 99999999999
-local devMode = false
 
 module.options = {
 	name = L.guild_bank,
@@ -46,7 +45,6 @@ function module:OnInitialize()
 	self:RegisterEvent("PLAYER_MONEY")
 
 	hooksecurefunc("DepositGuildBankMoney", function(copper)
-		copper = math.floor(copper)
 		if GetMoney() >= copper and GetGuildBankMoney() + copper <= GOLD_CAP then
 			self.prevMoney = GetMoney()
 			self.deposit = {
@@ -59,7 +57,7 @@ end
 
 function module:IsInCommunityGuild()
 	local guildName = GetGuildInfo("player")
-	return (guildName and guildName:find("Huokan") ~= nil) or devMode
+	return guildName and guildName:find("Huokan") ~= nil
 end
 
 function module:GUILDBANKFRAME_OPENED()
@@ -91,12 +89,12 @@ end
 function module:PLAYER_MONEY()
 	if not self.deposit then return end
 
-	if self.prevMoney - self.deposit.copper == GetMoney() then
-		if not self.deposit.verified then
+	if not self.deposit.verified then
+		if self.prevMoney - self.deposit.copper == GetMoney() then
 			self.deposit.verified = true
-		else
-			self:ProcessDeposit()
 		end
+	else
+		self:ProcessDeposit()
 	end
 end
 
@@ -315,7 +313,3 @@ function module:RenderUnmodifiableNote(deposit)
 	note:SetFullWidth(true)
 	return note
 end
-
---@do-not-package@
-devMode = true
---@end-do-not-package@
