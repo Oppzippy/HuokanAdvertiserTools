@@ -46,6 +46,7 @@ function module:OnInitialize()
 	self:RegisterEvent("PLAYER_MONEY")
 
 	hooksecurefunc("DepositGuildBankMoney", function(copper)
+		copper = math.floor(copper)
 		if GetMoney() >= copper and GetGuildBankMoney() + copper <= GOLD_CAP then
 			self.prevMoney = GetMoney()
 			self.deposit = {
