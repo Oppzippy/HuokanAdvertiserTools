@@ -34,34 +34,38 @@ function module:OnInitialize()
 end
 
 function module:TRADE_ACCEPT_UPDATE()
-	local ourMoney = GetPlayerTradeMoney()
-	local theirMoney = GetTargetTradeMoney()
+	if self:IsInCommunityGuild() then
+		local ourMoney = GetPlayerTradeMoney()
+		local theirMoney = GetTargetTradeMoney()
 
-	local gain = theirMoney - ourMoney
-	self.tradeCopper = gain
-	self.tradeTarget = self:UnitNameAndRealm("npc")
+		local gain = theirMoney - ourMoney
+		self.tradeCopper = gain
+		self.tradeTarget = self:UnitNameAndRealm("npc")
+	end
 end
 
 function module:PLAYER_TRADE_MONEY()
-	if self.tradeCopper ~= nil then
-		if self.tradeCopper ~= 0 then
-			local globalDB = self:GetGlobalDB()
-			globalDB.trades[#globalDB.trades+1] = {
-				timestamp = GetServerTime(),
-				copper = self.tradeCopper,
-				character = self:UnitNameAndRealm("player"),
-				target = self.tradeTarget,
-			}
-			local db = self:GetProfileDB()
-			if db.autoShow and not self:IsVisible() then
-				self:Show()
+	if self:IsInCommunityGuild() then
+		if self.tradeCopper ~= nil then
+			if self.tradeCopper ~= 0 then
+				local globalDB = self:GetGlobalDB()
+				globalDB.trades[#globalDB.trades+1] = {
+					timestamp = GetServerTime(),
+					copper = self.tradeCopper,
+					character = self:UnitNameAndRealm("player"),
+					target = self.tradeTarget,
+				}
+				local db = self:GetProfileDB()
+				if db.autoShow and not self:IsVisible() then
+					self:Show()
+				end
+				self:Render()
 			end
-			self:Render()
+			self.tradeCopper = nil
+			self.tradeTarget = nil
+		else
+			self:Print("Trade copper was nil, tell the developers!")
 		end
-		self.tradeCopper = nil
-		self.tradeTarget = nil
-	else
-		self:Print("Trade copper was nil, tell the developers!")
 	end
 end
 
