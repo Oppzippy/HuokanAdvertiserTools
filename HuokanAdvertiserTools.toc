@@ -11,5 +11,6 @@ Locales\locales.xml
 Core.lua
 ModulePrototype.lua
 Options.lua
+Widgets\widgets.xml
 Modules\modules.xml
 Custom.lua

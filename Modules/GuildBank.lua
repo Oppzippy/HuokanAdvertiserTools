@@ -1,5 +1,4 @@
 local _, addon = ...
-local AceGUI = LibStub("AceGUI-3.0")
 
 local Core, L = addon.Core, addon.L
 local module = Core:NewModule("GuildBank", addon.ModulePrototype, "AceEvent-3.0", "AceConsole-3.0")
@@ -146,81 +145,53 @@ do
 end
 
 function module:Show()
-	if self.frames.window then
+	if self.logFrame then
 		self:Hide()
 	end
-
-	local window = AceGUI:Create("Window")
-	self.frames.window = window
-	window:SetCallback("OnClose", function()
+	self.logFrame = addon:CreateLogWithNotes()
+	self.logFrame:RegisterCallback("OnClose", function()
 		self:Hide()
 	end)
 	local db = self:GetProfileDB()
+	self.logFrame:SetStatusTable(db.uiStatus)
+	self.logFrame:EnableResize(not db.lockedSize)
 
-	self:ForceWindowToScreenBounds()
-
-	-- It accepts the reference so the db will be updated directly on status changes
-	window:SetStatusTable(db.uiStatus)
-	window:EnableResize(not db.lockedSize)
-
-	window:SetLayout("flow")
-	window:SetTitle(L.huokan_bank_deposits_for_user:format(addon.discordTag or "Unknown"))
-
-	self.frames.scrollContainer, self.frames.scrollFrame = self:CreateScrollFrame()
+	self.logFrame:SetTitle(L.huokan_bank_deposits_for_user:format(addon.discordTag or "Unknown"))
 	self:RenderDeposits()
-
-	window:AddChild(self.frames.scrollContainer)
 end
 
-function module:ForceWindowToScreenBounds()
-	local db = self:GetProfileDB()
-	local maxWidth = UIParent:GetWidth()
-	local maxHeight = UIParent:GetHeight()
-
-	-- wider than screen
-	if db.uiStatus.width > maxWidth then
-		db.uiStatus.width = maxWidth
-	end
-	-- taller than screen
-	if db.uiStatus.height > maxHeight then
-		db.uiStatus.height = maxHeight
-	end
-	if db.uiStatus.left and db.uiStatus.top then
-		-- left of screen
-		if db.uiStatus.left < 0 then
-			db.uiStatus.left = 0
-		end
-		-- right of screen
-		if db.uiStatus.left > maxWidth - db.uiStatus.width  then
-			db.uiStatus.left = maxWidth - db.uiStatus.width
-		end
-		-- bottom of screen
-		if db.uiStatus.top < db.uiStatus.height then
-			db.uiStatus.top = db.uiStatus.height
-		end
-		-- top of screen
-		if db.uiStatus.top > maxHeight then
-			db.uiStatus.top = maxHeight
-		end
-	end
-end
 
 function module:Hide()
-	if self.frames.window then
-		local db = self:GetProfileDB()
-		-- AceGUI's Window doesn't set the status' width and height properties on resize,
-		-- only on move. If the user moves the window before closing it, everything works fine,
-		-- but if the user resizes the window and then closes it, the size data would be lost.
-		db.uiStatus.width = self.frames.window.frame:GetWidth()
-		db.uiStatus.height = self.frames.window.frame:GetHeight()
-
-		self.frames.window:Release()
-		self.frames = {}
+	if self.logFrame then
+		self.logFrame:Release()
+		self.logFrame = nil
 	end
 end
 
 function module:IsVisible()
-	return self.frames.window ~= nil
+	return self.logFrame ~= nil
+end
+
+function module:RenderDeposits()
+	local globalDB = self:GetGlobalDB()
+	local numDeposits = #globalDB.deposits
+
+	for i = numDeposits, 1, -1 do
+		local deposit = globalDB.deposits[i]
+		local logItem = addon:CreateLogItem(
+			deposit.timestamp,
+			L.guild_bank_deposit:format(
+				GetCoinTextureString(deposit.copper),
+				deposit.guild,
+				deposit.character
+			),
+			deposit.note
+		)
+		logItem:RegisterCallback("OnNoteChanged", function(_, _, note)
+			deposit.note = note
+		end)
+		self.logFrame:AddItem(logItem)
+	end
 end
 
 function module:SlashCmd(args)
@@ -239,81 +210,6 @@ function module:SlashCmd(args)
 		}
 		self:Show()
 	end
-end
-
-function module:CreateScrollFrame()
-	local scrollContainer = AceGUI:Create("SimpleGroup")
-	scrollContainer:SetFullWidth(true)
-	scrollContainer:SetFullHeight(true)
-	scrollContainer:SetLayout("Fill")
-	local scrollFrame = AceGUI:Create("ScrollFrame")
-	scrollFrame:SetLayout("Flow")
-	scrollContainer:AddChild(scrollFrame)
-	return scrollContainer, scrollFrame
-end
-
-function module:RenderDeposits()
-	if not self.frames.window then return end
-
-	local globalDB = self:GetGlobalDB()
-	-- Don't re-run layout every time a widget is added during the loop
-	self.frames.scrollFrame:PauseLayout()
-	self.frames.scrollFrame:ReleaseChildren()
-	local numDeposits = #globalDB.deposits
-	for i = numDeposits, 1, -1 do
-		local deposit = globalDB.deposits[i]
-		local frame = self:RenderDeposit(deposit)
-		frame:SetFullWidth(true)
-
-		if i == numDeposits then
-			frame:AddChild(self:RenderNote(deposit))
-		elseif deposit.note and deposit.note ~= "" then
-			frame:AddChild(self:RenderUnmodifiableNote(deposit))
-		end
-
-		self.frames.scrollFrame:AddChild(frame)
-	end
-	self.frames.scrollFrame:ResumeLayout()
-	self.frames.scrollFrame:DoLayout()
-end
-
-function module:RenderDeposit(deposit)
-	local container = AceGUI:Create("InlineGroup")
-	-- TODO convert to eastern time
-	container:SetTitle(date("!%Y-%m-%d %I:%M%p UTC", deposit.timestamp))
-	container:SetLayout("Flow")
-
-	local label = AceGUI:Create("Label")
-	label:SetFullWidth(true)
-	label:SetText(L.guild_bank_deposit:format(
-		GetCoinTextureString(deposit.copper),
-		deposit.guild,
-		deposit.character
-	))
-	container:AddChild(label)
-
-	return container
-end
-
-function module:RenderNote(deposit)
-	local note = AceGUI:Create("EditBox")
-	note:SetLabel(L.note)
-	note:SetText(deposit.note or "")
-	note:SetCallback("OnEnterPressed", function(_, _, 	text)
-		deposit.note = text
-	end)
-	note:SetFullWidth(true)
-	return note
-end
-
-function module:RenderUnmodifiableNote(deposit)
-	local note = AceGUI:Create("Label")
-	if deposit.note then
-		local noteFormat = "|cFFFFD100%s|r: %s"
-		note:SetText(noteFormat:format(L.note, deposit.note) or "")
-	end
-	note:SetFullWidth(true)
-	return note
 end
 
 --@do-not-package@
