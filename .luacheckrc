@@ -49,4 +49,6 @@ globals = {
 	"GetAddOnMetadata",
 	"IsInGuild",
 	"UIParent",
+	"GetPlayerTradeMoney",
+    "GetTargetTradeMoney",
 }

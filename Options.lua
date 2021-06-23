@@ -26,10 +26,21 @@ addon.dbDefaults = {
 			autoShow = true,
 			autoHide = true,
 		},
+		Trade = {
+			uiStatus = {
+				width = 400,
+				height = 600,
+			},
+			lockedSize = false,
+			autoShow = true,
+		},
 	},
 	global = {
 		GuildBank = {
 			deposits = {},
+		},
+		Trade = {
+			trades = {},
 		},
 	},
 }
