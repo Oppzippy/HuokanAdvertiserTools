@@ -4,7 +4,6 @@ local Core, L = addon.Core, addon.L
 local module = Core:NewModule("GuildBank", addon.ModulePrototype, "AceEvent-3.0", "AceConsole-3.0")
 
 local GOLD_CAP = 99999999999
-local devMode = false
 
 module.options = {
 	name = L.guild_bank,
@@ -28,8 +27,8 @@ module.options = {
 			set = function(_, lockedSize)
 				local db = module:GetProfileDB()
 				db.lockedSize = lockedSize
-				if module.frames.window then
-					module.frames.window:EnableResize(not lockedSize)
+				if module.logFrame then
+					module.logFrame:EnableResize(not lockedSize)
 				end
 			end,
 		},
@@ -56,10 +55,7 @@ function module:OnInitialize()
 	end)
 end
 
-function module:IsInCommunityGuild()
-	local guildName = GetGuildInfo("player")
-	return (guildName and guildName:find("Huokan") ~= nil) or devMode
-end
+
 
 function module:GUILDBANKFRAME_OPENED()
 	local db = self:GetProfileDB()
@@ -100,12 +96,6 @@ function module:PLAYER_MONEY()
 end
 
 do
-	local function getCharacterNameAndRealm()
-		local name = UnitName("player")
-		local realm = GetRealmName()
-		return name .. "-" .. realm
-	end
-
 	local function getGuildNameAndRealm()
 		local guildName, _, _, guildRealm = GetGuildInfo("player")
 		if not guildRealm then
@@ -131,7 +121,7 @@ do
 		local deposit = self.deposit
 		self.deposit = nil
 
-		local character = getCharacterNameAndRealm()
+		local character = self:UnitNameAndRealm("player")
 		local guild = getGuildNameAndRealm()
 		local globalDB = self:GetGlobalDB()
 		globalDB.deposits[#globalDB.deposits+1] = {
@@ -145,7 +135,7 @@ do
 end
 
 function module:Show()
-	if self.logFrame then
+	if self:IsVisible() then
 		self:Hide()
 	end
 	self.logFrame = addon:CreateLogWithNotes()
@@ -162,7 +152,7 @@ end
 
 
 function module:Hide()
-	if self.logFrame then
+	if self:IsVisible() then
 		self.logFrame:Release()
 		self.logFrame = nil
 	end
@@ -173,9 +163,12 @@ function module:IsVisible()
 end
 
 function module:RenderDeposits()
+	if not self:IsVisible() then return end
 	local globalDB = self:GetGlobalDB()
 	local numDeposits = #globalDB.deposits
 
+	self.logFrame:PauseLayout()
+	self.logFrame:ReleaseChildren()
 	for i = numDeposits, 1, -1 do
 		local deposit = globalDB.deposits[i]
 		local logItem = addon:CreateLogItem(
@@ -192,6 +185,8 @@ function module:RenderDeposits()
 		end)
 		self.logFrame:AddItem(logItem)
 	end
+	self.logFrame:ResumeLayout()
+	self.logFrame:DoLayout()
 end
 
 function module:SlashCmd(args)
@@ -211,7 +206,3 @@ function module:SlashCmd(args)
 		self:Show()
 	end
 end
-
---@do-not-package@
-devMode = true
---@end-do-not-package@
