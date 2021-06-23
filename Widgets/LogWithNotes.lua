@@ -146,11 +146,9 @@ function LogWithNotesPrototype:DoLayout()
 	-- Don't re-run layout every time a widget is added during the loop
 	self.frames.scrollFrame:PauseLayout()
 	self.frames.scrollFrame:ReleaseChildren()
-	local numItems = #self.items
-	for i = numItems, 1, -1 do
-		local item = self.items[i]
+	for i, item in ipairs(self.items) do
 		local frame = self:RenderLogItem(item, {
-			unmodifiable = i ~= numItems,
+			unmodifiable = i ~= 1,
 		})
 		frame:SetFullWidth(true)
 
