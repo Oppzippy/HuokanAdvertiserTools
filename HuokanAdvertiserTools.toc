@@ -1,4 +1,4 @@
-## Interface: 90005
+## Interface: 90100
 ## Title: Huokan Advertiser Tools
 ## Notes: Tools for Huokan Boosting Community Advertisers.
 ## Author: Oppzippy
