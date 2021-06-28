@@ -27,6 +27,7 @@ L.note = "Note"
 -- VersionCheck module
 L.version = "Version %s (%d)"
 L.update_available = "A newer version of Huokan Advertiser Tools is available."
+L.update_available_with_version = "A newer version of Huokan Advertiser Tools (%s) is available."
 -- Trade module
 L.trade = "Trade"
 L.trades_for_user = "%s's Trades"
