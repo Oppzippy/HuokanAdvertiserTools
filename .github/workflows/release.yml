@@ -17,3 +17,22 @@ jobs:
         env:
           GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
         run: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash
+      - name: Upload to discord bot
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: appleboy/scp-action@v0.1.1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          source: release/HuokanAdvertiserTools-*.zip
+          target: release/HuokanAdvertiserTools.zip
+      - name: SSH Remote Commands
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: screen -dm bash -c "./update_addon"
