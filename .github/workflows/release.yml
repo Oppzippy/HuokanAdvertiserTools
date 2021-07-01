@@ -18,7 +18,7 @@ jobs:
           GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
         run: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash
       - name: Rename zip
-        run: mv release/HuokanAdvertiserTools-*.zip release/HuokanAdvertiserTools.zip
+        run: mv .release/HuokanAdvertiserTools-*.zip .release/HuokanAdvertiserTools.zip
       - name: Upload to discord bot
         if: startsWith(github.ref, 'refs/tags/')
         uses: appleboy/scp-action@v0.1.1
@@ -27,7 +27,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
-          source: release/HuokanAdvertiserTools.zip
+          source: .release/HuokanAdvertiserTools.zip
           target: release/HuokanAdvertiserTools.zip
       - name: SSH Remote Commands
         if: startsWith(github.ref, 'refs/tags/')
