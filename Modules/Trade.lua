@@ -97,9 +97,9 @@ function module:Render()
 
 		local text
 		if trade.copper < 0 then
-			text = L.traded_money_to:format(trade.character, GetCoinTextureString(trade.copper), trade.target)
+			text = L.traded_money_to:format(trade.character, GetCoinTextureString(-trade.copper), trade.target)
 		else
-			text = L.traded_money_to:format(trade.target, GetCoinTextureString(-trade.copper), trade.character)
+			text = L.traded_money_to:format(trade.target, GetCoinTextureString(trade.copper), trade.character)
 		end
 
 		local logItem = addon:CreateLogItem(
