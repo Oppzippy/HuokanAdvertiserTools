@@ -14,9 +14,9 @@ jobs:
       - name: Run luacheck
         run: luacheck .
       - name: Package and release
+        uses: BigWigsMods/packager@master
         env:
           GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
-        run: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash
       - name: Rename zip
         run: mv .release/HuokanAdvertiserTools-*.zip HuokanAdvertiserTools.zip
       - name: Upload to discord bot
