@@ -18,6 +18,7 @@ jobs:
         env:
           GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
       - name: Rename zip
+        if: startsWith(github.ref, 'refs/tags/')
         run: mv .release/HuokanAdvertiserTools-*.zip HuokanAdvertiserTools.zip
       - name: Upload to discord bot
         if: startsWith(github.ref, 'refs/tags/')
