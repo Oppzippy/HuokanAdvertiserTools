@@ -28,8 +28,11 @@ function ModulePrototype:SlashCmd(args)
 end
 
 function ModulePrototype:IsInCommunityGuild()
-	local guildName = GetGuildInfo("player")
-	return (guildName and guildName:find("Huokan") ~= nil) or devMode
+	local guildName, _, _, realm = GetGuildInfo("player")
+	if not realm then
+		realm = GetRealmName()
+	end
+	return addon.communityGuilds[string.format("%s - %s", guildName, realm)] or devMode
 end
 
 function ModulePrototype:UnitNameAndRealm(unit)
