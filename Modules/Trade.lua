@@ -30,7 +30,7 @@ module.options = {
 
 function module:OnInitialize()
 	self:RegisterEvent("TRADE_ACCEPT_UPDATE")
-	self:RegisterEvent("PLAYER_TRADE_MONEY")
+	self:RegisterEvent("UI_INFO_MESSAGE")
 end
 
 function module:TRADE_ACCEPT_UPDATE()
@@ -44,28 +44,24 @@ function module:TRADE_ACCEPT_UPDATE()
 	end
 end
 
-function module:PLAYER_TRADE_MONEY()
-	if self:IsInCommunityGuild() then
-		if self.tradeCopper ~= nil then
-			if self.tradeCopper ~= 0 then
-				local globalDB = self:GetGlobalDB()
-				globalDB.trades[#globalDB.trades+1] = {
-					timestamp = GetServerTime(),
-					copper = self.tradeCopper,
-					character = self:UnitNameAndRealm("player"),
-					target = self.tradeTarget,
-				}
-				local db = self:GetProfileDB()
-				if db.autoShow and not self:IsVisible() then
-					self:Show()
-				end
-				self:Render()
+function module:UI_INFO_MESSAGE(_, messageType)
+	if messageType == 229 and self:IsInCommunityGuild() then -- Trade complete.
+		if self.tradeCopper ~= nil and self.tradeCopper ~= 0 then
+			local globalDB = self:GetGlobalDB()
+			globalDB.trades[#globalDB.trades+1] = {
+				timestamp = GetServerTime(),
+				copper = self.tradeCopper,
+				character = self:UnitNameAndRealm("player"),
+				target = self.tradeTarget,
+			}
+			local db = self:GetProfileDB()
+			if db.autoShow and not self:IsVisible() then
+				self:Show()
 			end
-			self.tradeCopper = nil
-			self.tradeTarget = nil
-		else
-			self:Print("Trade copper was nil, tell the developers!")
+			self:Render()
 		end
+		self.tradeCopper = nil
+		self.tradeTarget = nil
 	end
 end
 
