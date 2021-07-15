@@ -16,7 +16,7 @@ jobs:
       - name: Check for version bump since previous release
         if: startsWith(github.ref, 'refs/tags/')
         run: |
-          version_change=$(git diff $(git describe --abbrev=0 --tags HEAD~~~~) Modules/Version.lua | grep -E "\+local VERSION = [0-9]+")
+          version_change=$(git diff $(git describe --abbrev=0 --tags HEAD~) Modules/Version.lua | grep -E "\+local VERSION = [0-9]+")
           if [ -z "$version_change" ]; then
             echo "The version number in Modules/Version.lua has not changed since the previous release. This number should be incremented."
             exit 1
