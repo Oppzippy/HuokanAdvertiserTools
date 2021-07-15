@@ -3,4 +3,5 @@
 	<Script file="Version.lua" />
 	<Script file="GuildBank.lua" />
 	<Script file="Trade.lua" />
+	<Script file="NotInCommunityGuild.lua" />
 </Ui>

@@ -3,7 +3,7 @@ local _, addon = ...
 local ModulePrototype = {}
 addon.ModulePrototype = ModulePrototype
 
-local devMode = false
+local devMode = nil
 
 function ModulePrototype:GetProfileDB()
 	return self:GetSpecificDB("profile")
@@ -28,6 +28,9 @@ function ModulePrototype:SlashCmd(args)
 end
 
 function ModulePrototype:IsInCommunityGuild()
+	if not IsInGuild() then
+		return nil
+	end
 	local guildName, _, _, realm = GetGuildInfo("player")
 	if not realm then
 		realm = GetRealmName()

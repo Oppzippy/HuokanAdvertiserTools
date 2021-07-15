@@ -32,3 +32,5 @@ L.update_available_with_version = "A newer version of Huokan Advertiser Tools (%
 L.trade = "Trade"
 L.trades_for_user = "%s's Trades"
 L.traded_money_to = "%s gave %s to %s."
+-- Not in Community Guild module
+L.warning_not_in_community_guild = "WARNING: You are not in a Huokan Community guild. You must join a Huokan Community guild in order for the addon to function."
