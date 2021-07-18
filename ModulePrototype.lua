@@ -28,14 +28,14 @@ function ModulePrototype:SlashCmd(args)
 end
 
 function ModulePrototype:IsInCommunityGuild()
-	if not IsInGuild() then
-		return nil
-	end
 	local guildName, _, _, realm = GetGuildInfo("player")
+	if not guildName then
+		return
+	end
 	if not realm then
 		realm = GetRealmName()
 	end
-	return addon.communityGuilds[string.format("%s - %s", guildName, realm)] or devMode
+	return addon.communityGuilds[string.format("%s - %s", guildName:lower(), realm:lower())] or devMode
 end
 
 function ModulePrototype:UnitNameAndRealm(unit)
@@ -50,5 +50,5 @@ function ModulePrototype:UnitNameAndRealm(unit)
 end
 
 --@do-not-package@
-devMode = true
+devMode = false
 --@end-do-not-package@
