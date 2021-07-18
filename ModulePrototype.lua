@@ -50,5 +50,5 @@ function ModulePrototype:UnitNameAndRealm(unit)
 end
 
 --@do-not-package@
-devMode = false
+devMode = true
 --@end-do-not-package@
