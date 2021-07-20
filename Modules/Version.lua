@@ -7,6 +7,7 @@ local VERSION = 6
 local COMM_PREFIX = "HAT_Version"
 
 function module:OnInitialize()
+	self.versionPrints = 0
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:RegisterComm(COMM_PREFIX)
 end
@@ -38,20 +39,23 @@ end
 function module:NewVersionReceived(version)
 	if not self.latestVersion or self.latestVersion.number < version.number then
 		self.latestVersion = version
-		if self.versionCheckTimer then
-			self.versionCheckTimer:Cancel()
+		if self.printVersionTimer then
+			self.printVersionTimer:Cancel()
 		end
-		self.versionCheckTimer = C_Timer.NewTimer(1, function()
-			self:CheckVersionQueue()
+		self.printVersionTimer = C_Timer.NewTimer(1, function()
+			self:PrintLatestVersion()
 		end)
 	end
 end
 
-function module:CheckVersionQueue()
-	if self.latestVersion.string:find("@") ~= 1 then
-		Core:Print(L.update_available_with_version:format(self.latestVersion.string, Core:GetVersion()))
-	else
-		Core:Print(L.update_available)
+function module:PrintLatestVersion()
+	if self.versionPrints < 3 then
+		self.versionPrints = self.versionPrints + 1
+		if self.latestVersion.string:find("@") ~= 1 then
+			Core:Print(L.update_available_with_version:format(self.latestVersion.string, Core:GetVersion()))
+		else
+			Core:Print(L.update_available)
+		end
 	end
 end
 
