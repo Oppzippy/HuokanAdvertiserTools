@@ -1,4 +1,4 @@
-local addonName, addon = ...
+local _, addon = ...
 
 local Core, L = addon.Core, addon.L
 local module = Core:NewModule("Version", addon.ModulePrototype, "AceEvent-3.0", "AceComm-3.0")
@@ -23,25 +23,42 @@ function module:OnCommReceived(_, message, channel, sender)
 	-- upgrade to a version that supports receiving those messages.
 	local versionNumber, versionString = message:gmatch("(%d+) (.*)")()
 	versionNumber = tonumber(versionNumber)
-	if not versionNumber then
-		-- Remove this when we start sending the version string
-		versionNumber = tonumber(message)
-	end
 	if not versionNumber then return end
 
 	if versionNumber < VERSION then
-		self:SendCommMessage(COMM_PREFIX, tostring(VERSION), "WHISPER", sender)
-	elseif versionNumber > VERSION and not self.isUpdateAvailable then
-		self.isUpdateAvailable = true
-		if versionString then
-			Core:Print(L.update_available_with_version:format(versionString))
-		else
-			Core:Print(L.update_available)
-		end
+		self:SendCommMessage(COMM_PREFIX, self:GetVersionCommMessage(), "WHISPER", sender)
+	else
+		self:NewVersionReceived({
+			number = versionNumber,
+			string = versionString,
+		})
 	end
 end
 
+function module:NewVersionReceived(version)
+	if not self.latestVersion or self.latestVersion.number < version.number then
+		self.latestVersion = version
+		if self.versionCheckTimer then
+			self.versionCheckTimer:Cancel()
+		end
+		self.versionCheckTimer = C_Timer.NewTimer(1, function()
+			self:CheckVersionQueue()
+		end)
+	end
+end
+
+function module:CheckVersionQueue()
+	if self.latestVersion.string:find("@") ~= 1 then
+		Core:Print(L.update_available_with_version:format(self.latestVersion.string, Core:GetVersion()))
+	else
+		Core:Print(L.update_available)
+	end
+end
+
+function module:GetVersionCommMessage()
+	return tostring(VERSION) .. " " .. Core:GetVersion()
+end
+
 function module:SlashCmd(args)
-	local versionNumber = GetAddOnMetadata(addonName, "Version")
-	Core:Printf(L.version:format(versionNumber, VERSION))
+	Core:Printf(L.version:format(Core:GetVersion(), VERSION))
 end

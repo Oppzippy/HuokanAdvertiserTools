@@ -1,4 +1,4 @@
-local _, addon = ...
+local addonName, addon = ...
 
 local AceAddon = LibStub("AceAddon-3.0")
 local AceLocale = LibStub("AceLocale-3.0")
@@ -62,4 +62,8 @@ function Core:GetModuleBySlashCmd(cmd)
 			return module
 		end
 	end
+end
+
+function Core:GetVersion()
+	return GetAddOnMetadata(addonName, "Version")
 end
