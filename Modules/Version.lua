@@ -23,6 +23,9 @@ function module:PLAYER_ENTERING_WORLD()
 end
 
 function module:OnCommReceived(_, message, channel, sender)
+	--@do-not-package@
+	Core:Printf("%s is on version %s", sender, message)
+	--@end-do-not-package@
 	-- We will move over to sending the version string as well as number in the future once most people
 	-- upgrade to a version that supports receiving those messages.
 	local versionNumber, versionString = message:gmatch("(%d+) (.*)")()
@@ -87,6 +90,8 @@ function module:UPDATE_MOUSEOVER_UNIT()
 		self.mouseoverVersionBlacklist[mouseoverName] = mouseoverName
 
 		self:SendCommMessage(COMM_PREFIX, self:GetVersionCommMessage(), "WHISPER", mouseoverName)
+		self:SendCommMessage(COMM_PREFIX, "0 v0", "WHISPER", mouseoverName)
+		self:SendCommMessage(COMM_PREFIX, "0", "WHISPER", mouseoverName)
 		Core:Printf("Sent version to %s", mouseoverName)
 	end
 end
