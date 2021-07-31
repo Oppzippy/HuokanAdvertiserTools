@@ -40,7 +40,7 @@ function module:OnInitialize()
 
 	self:RegisterEvent("GUILDBANKFRAME_OPENED")
 	self:RegisterEvent("GUILDBANKFRAME_CLOSED")
-	self:RegisterEvent("GUILDBANK_UPDATE_WITHDRAWMONEY")
+	self:RegisterEvent("GUILDBANK_UPDATE_MONEY")
 	self:RegisterEvent("PLAYER_MONEY")
 
 	hooksecurefunc("DepositGuildBankMoney", function(copper)
@@ -69,9 +69,9 @@ function module:GUILDBANKFRAME_CLOSED()
 	end
 end
 
--- GUILDBANK_UPDATE_WITHDRAWMONEY and PLAYER_MONEY may be called in any order,
+-- GUILDBANK_UPDATE_MONEY and PLAYER_MONEY may be called in any order,
 -- so handle both orders properly. Verify on both ends that everything checks out.
-function module:GUILDBANK_UPDATE_WITHDRAWMONEY()
+function module:GUILDBANK_UPDATE_MONEY()
 	if self.deposit then
 		if not self.deposit.verified then
 			self.deposit.verified = true
@@ -103,7 +103,10 @@ do
 	end
 
 	function module:ProcessDeposit()
-		if not self:IsInCommunityGuild() then return end
+		if not self:IsInCommunityGuild() then
+			Core:Print(L.warning_not_in_community_guild)
+			return
+		end
 		if not self.deposit.verified then
 			Core:Print(L.failed_to_verify_deposit)
 			return
