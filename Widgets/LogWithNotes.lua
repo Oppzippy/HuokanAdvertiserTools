@@ -43,8 +43,8 @@ end
 -- It accepts the reference so the db will be updated directly on status changes
 function LogWithNotesPrototype:SetStatusTable(statusTable)
 	self.statusTable = statusTable
-	self.frames.window:SetStatusTable(statusTable)
 	self:ForceWindowToScreenBounds()
+	self.frames.window:SetStatusTable(statusTable)
 end
 
 function LogWithNotesPrototype:EnableResize(enableResize)
