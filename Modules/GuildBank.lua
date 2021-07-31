@@ -45,13 +45,19 @@ function module:OnInitialize()
 
 	hooksecurefunc("DepositGuildBankMoney", function(copper)
 		copper = math.floor(copper)
-		if GetMoney() >= copper and GetGuildBankMoney() + copper <= GOLD_CAP then
-			self.prevMoney = GetMoney()
-			self.deposit = {
-				time = GetTime(),
-				copper = copper,
-			}
+		if GetMoney() < copper then
+			Core:Printf("Deposit would cause negative player money. If this is an unexpected error, please open a ticket. Player money: %.0f, deposit: %.0f", GetMoney(), copper)
+			return
 		end
+		if GetGuildBankMoney() + copper > GOLD_CAP then
+			Core:Printf("Deposit would cause guild bank to gold cap. If this is an unexpected error, please open a ticket. Guild bank money: %.0f, deposit: %.0f", GetGuildBankMoney(), copper)
+			return
+		end
+		self.prevMoney = GetMoney()
+		self.deposit = {
+			time = GetTime(),
+			copper = copper,
+		}
 	end)
 end
 
