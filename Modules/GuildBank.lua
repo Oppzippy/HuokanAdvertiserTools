@@ -55,8 +55,6 @@ function module:OnInitialize()
 	end)
 end
 
-
-
 function module:GUILDBANKFRAME_OPENED()
 	local db = self:GetProfileDB()
 	if self:IsInCommunityGuild() and db.autoShow then
@@ -84,14 +82,14 @@ function module:GUILDBANK_UPDATE_WITHDRAWMONEY()
 end
 
 function module:PLAYER_MONEY()
-	if not self.deposit then return end
-
-	if not self.deposit.verified then
-		if self.prevMoney - self.deposit.copper == GetMoney() then
-			self.deposit.verified = true
+	if self.deposit then
+		if not self.deposit.verified then
+			if self.prevMoney - self.deposit.copper == GetMoney() then
+				self.deposit.verified = true
+			end
+		else
+			self:ProcessDeposit()
 		end
-	else
-		self:ProcessDeposit()
 	end
 end
 
