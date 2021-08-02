@@ -51,4 +51,5 @@ globals = {
 	"UIParent",
 	"GetPlayerTradeMoney",
     "GetTargetTradeMoney",
+	"UnitGUID",
 }

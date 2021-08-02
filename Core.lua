@@ -12,6 +12,9 @@ addon.L = L
 
 local Core = AceAddon:NewAddon("HuokanAdvertiserTools", "AceConsole-3.0", "AceEvent-3.0")
 addon.Core = Core
+--@do-not-package@
+addon.devMode = true
+--@end-do-not-package@
 
 function Core:OnInitialize()
 	self.isInitialized = true

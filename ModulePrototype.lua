@@ -3,8 +3,6 @@ local _, addon = ...
 local ModulePrototype = {}
 addon.ModulePrototype = ModulePrototype
 
-local devMode = nil
-
 function ModulePrototype:GetProfileDB()
 	return self:GetSpecificDB("profile")
 end
@@ -35,7 +33,7 @@ function ModulePrototype:IsInCommunityGuild()
 	if not realm then
 		realm = GetRealmName()
 	end
-	return addon.communityGuilds[string.format("%s - %s", guildName:lower(), realm:lower())] or devMode
+	return addon.communityGuilds[string.format("%s - %s", guildName:lower(), realm:lower())] or addon.devMode
 end
 
 function ModulePrototype:UnitNameAndRealm(unit)
@@ -48,7 +46,3 @@ function ModulePrototype:UnitNameAndRealm(unit)
 	end
 	return ""
 end
-
---@do-not-package@
-devMode = true
---@end-do-not-package@
