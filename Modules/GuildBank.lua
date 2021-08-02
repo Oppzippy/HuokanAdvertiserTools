@@ -57,6 +57,7 @@ function module:OnInitialize()
 		self.deposit = {
 			time = GetTime(),
 			copper = copper,
+			events = {},
 		}
 	end)
 end
@@ -77,21 +78,23 @@ end
 
 -- GUILDBANK_UPDATE_MONEY and PLAYER_MONEY may be called in any order,
 -- so handle both orders properly. Verify on both ends that everything checks out.
-function module:GUILDBANK_UPDATE_MONEY()
+function module:GUILDBANK_UPDATE_MONEY(event)
 	if self.deposit then
 		if not self.deposit.verified then
 			self.deposit.verified = true
+			self.deposit.events[#self.deposit.events+1] = event
 		else
 			self:ProcessDeposit()
 		end
 	end
 end
 
-function module:PLAYER_MONEY()
+function module:PLAYER_MONEY(event)
 	if self.deposit then
 		if not self.deposit.verified then
 			if self.prevMoney - self.deposit.copper == GetMoney() then
 				self.deposit.verified = true
+				self.deposit.events[#self.deposit.events+1] = event
 			end
 		else
 			self:ProcessDeposit()
@@ -211,5 +214,7 @@ function module:SlashCmd(args)
 			height = addon.dbDefaults.profile.GuildBank.uiStatus.height,
 		}
 		self:Show()
+	elseif args[1] == "printdeposit" then
+		DevTools_Dump(self.deposit)
 	end
 end

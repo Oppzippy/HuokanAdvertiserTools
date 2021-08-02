@@ -52,4 +52,5 @@ globals = {
 	"GetPlayerTradeMoney",
     "GetTargetTradeMoney",
 	"UnitGUID",
+	"DevTools_Dump",
 }
