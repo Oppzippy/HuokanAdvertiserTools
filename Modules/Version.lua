@@ -10,9 +10,6 @@ function module:OnInitialize()
 	self.versionPrints = 0
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:RegisterComm(COMM_PREFIX)
-	--@do-not-package@
-	self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
-	--@end-do-not-package@
 end
 
 function module:PLAYER_ENTERING_WORLD()
@@ -69,25 +66,3 @@ end
 function module:SlashCmd(args)
 	Core:Printf(L.version:format(Core:GetVersion(), VERSION))
 end
-
---@do-not-package@
-function module:UPDATE_MOUSEOVER_UNIT()
-	if not self.mouseoverVersionBlacklist then
-		self.mouseoverVersionBlacklist = {}
-	end
-	local mouseoverGuild = GetGuildInfo("mouseover")
-	if mouseoverGuild and mouseoverGuild:lower():find("huokan") then
-		local mouseoverName, mouseoverRealm = UnitName("mouseover")
-		if mouseoverName and mouseoverRealm then
-			mouseoverName = mouseoverName .. "-" .. mouseoverRealm
-		end
-		if not mouseoverName or self.mouseoverVersionBlacklist[mouseoverName] then
-			return
-		end
-		self.mouseoverVersionBlacklist[mouseoverName] = mouseoverName
-
-		self:SendCommMessage(COMM_PREFIX, self:GetVersionCommMessage(), "WHISPER", mouseoverName)
-		Core:Printf("Sent version to %s", mouseoverName)
-	end
-end
---@end-do-not-package@
