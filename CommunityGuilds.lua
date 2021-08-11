@@ -22,6 +22,7 @@ addon.communityGuilds = {
 	["huokanbankfrosth - frostmourne"] = true,
 	["huokanbankstormreaver - stormreaver"] = true,
 	["huokanbankkorgath - korgath"] = true,
+	["huokan bank zuljin - zul'jin"] = true,
 	-- Alliance
 	["huokan bank quelthalasa - quel'thalas"] = true,
 	["huokan bank frosta - frostmourne"] = true,
