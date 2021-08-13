@@ -28,7 +28,7 @@ function module:OnCommReceived(_, message, channel, sender)
 
 	if versionNumber < VERSION then
 		self:SendCommMessage(COMM_PREFIX, self:GetVersionCommMessage(), "WHISPER", sender)
-	elseif versionNumber > VERSION then
+	else
 		self:NewVersionReceived({
 			number = versionNumber,
 			string = versionString,
@@ -37,7 +37,7 @@ function module:OnCommReceived(_, message, channel, sender)
 end
 
 function module:NewVersionReceived(version)
-	if not self.latestVersion or self.latestVersion.number < version.number then
+	if version.number > (self.latestVersion and self.latestVersion.number or VERSION) then
 		self.latestVersion = version
 		if self.printVersionTimer then
 			self.printVersionTimer:Cancel()
