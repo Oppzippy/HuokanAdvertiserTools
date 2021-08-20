@@ -26,6 +26,7 @@ addon.communityGuilds = {
 	["huokan bank zuljin - zul'jin"] = true,
 	["huokanbankkj - kil'jaeden"] = true,
 	["huokanbankwyrmrest - wyrmrest accord"] = true,
+	["huokan bank durotan - durotan"] = true,
 	-- Alliance
 	["huokanbankstormrage - stormrage"] = true,
 	["huokanbankblackhand - blackhand"] = true,
