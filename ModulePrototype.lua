@@ -3,6 +3,8 @@ local _, addon = ...
 local ModulePrototype = {}
 addon.ModulePrototype = ModulePrototype
 
+local L = addon.L
+
 function ModulePrototype:GetProfileDB()
 	return self:GetSpecificDB("profile")
 end
@@ -23,6 +25,23 @@ function ModulePrototype:SlashCmd(args)
 			self:Show()
 		end
 	end
+end
+
+function ModulePrototype:CreateOpenButtonOptionTable(order)
+	return {
+		name = L.open,
+		desc = "/hat " .. self:GetName():lower(),
+		type = "execute",
+		width = "full",
+		order = order,
+		func = function()
+			if self.IsVisible and self:IsVisible() then
+				self:Hide()
+			else
+				self:Show()
+			end
+		end,
+	}
 end
 
 function ModulePrototype:IsInCommunityGuild()

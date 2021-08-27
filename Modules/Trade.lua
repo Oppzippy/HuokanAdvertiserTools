@@ -7,10 +7,11 @@ module.options = {
 	name = L.trade,
 	type = "group",
 	args = {
+		open = module:CreateOpenButtonOptionTable(1),
 		autoShow = {
 			name = L.auto_show,
 			type = "toggle",
-			order = 1,
+			order = 2,
 		},
 		lockedSize = {
 			name = L.locked_size,

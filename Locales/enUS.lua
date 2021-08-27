@@ -6,6 +6,7 @@ L.profiles = "Profiles"
 L.help = "Help"
 L.locked_size = "Locked Size"
 L.locked_size_desc = "This will prevent the frame from being resized. Ensure the size is set as you want it before enabling this option."
+L.open = "Open"
 L.auto_show = "Auto Show"
 L.auto_hide = "Auto Hide"
 L.help_desc = [[

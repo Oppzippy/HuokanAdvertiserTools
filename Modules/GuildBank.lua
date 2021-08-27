@@ -9,21 +9,22 @@ module.options = {
 	name = L.guild_bank,
 	type = "group",
 	args = {
+		open = module:CreateOpenButtonOptionTable(1),
 		autoShow = {
 			name = L.auto_show,
 			type = "toggle",
-			order = 1,
+			order = 2,
 		},
 		autoHide = {
 			name = L.auto_hide,
 			type = "toggle",
-			order = 2,
+			order = 3,
 		},
 		lockedSize = {
 			name = L.locked_size,
 			desc = L.locked_size_desc,
 			type = "toggle",
-			order = 3,
+			order = 4,
 			set = function(_, lockedSize)
 				local db = module:GetProfileDB()
 				db.lockedSize = lockedSize

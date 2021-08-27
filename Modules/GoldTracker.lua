@@ -9,10 +9,11 @@ module.options = {
 	name = L.gold_tracker,
 	type = "group",
 	args = {
+		open = module:CreateOpenButtonOptionTable(1),
 		includeGuildBanksIfGuildLeader = {
 			name = L.include_guild_banks_if_guild_leader,
 			type = "toggle",
-			order = 1,
+			order = 2,
 		},
 	},
 }
