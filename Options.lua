@@ -34,6 +34,13 @@ addon.dbDefaults = {
 			lockedSize = false,
 			autoShow = true,
 		},
+		GoldTracker = {
+			includeGuildBanksIfGuildLeader = false,
+			uiStatus = {
+				width = 550,
+				height = 600,
+			},
+		},
 	},
 	global = {
 		GuildBank = {
@@ -41,6 +48,10 @@ addon.dbDefaults = {
 		},
 		Trade = {
 			trades = {},
+		},
+		GoldTracker = {
+			characters = {},
+			guilds = {},
 		},
 	},
 }

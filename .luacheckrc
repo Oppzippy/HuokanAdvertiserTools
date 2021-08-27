@@ -53,4 +53,12 @@ globals = {
     "GetTargetTradeMoney",
 	"UnitGUID",
 	"DevTools_Dump",
+	"IsGuildLeader",
+	"UnitFactionGroup",
+	"GetGuildRosterInfo",
+	"GetNumGuildMembers",
+	"StaticPopupDialogs",
+	"StaticPopup_Show",
+	"YES",
+	"NO",
 }

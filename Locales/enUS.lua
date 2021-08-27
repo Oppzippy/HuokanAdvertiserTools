@@ -34,3 +34,8 @@ L.trades_for_user = "%s's Trades"
 L.traded_money_to = "%s gave %s to %s."
 -- Not in Community Guild module
 L.warning_not_in_community_guild = "WARNING: You are not in a Huokan Community guild. You must join a Huokan Community guild in order for the addon to function."
+-- Gold Tracker module
+L.gold_tracker = "Gold Tracker"
+L.total_amount = "Total: %s"
+L.include_guild_banks_if_guild_leader = "Include guild banks in gold totals if you're the GM"
+L.confirm_delete_character_from_gold_tracker = "Are you sure you want to remove %s from the gold tracker?"

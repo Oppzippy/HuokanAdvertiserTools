@@ -103,14 +103,6 @@ function module:PLAYER_MONEY(event)
 end
 
 do
-	local function getGuildNameAndRealm()
-		local guildName, _, _, guildRealm = GetGuildInfo("player")
-		if not guildRealm then
-			guildRealm = GetRealmName()
-		end
-		return guildName .. "-" .. guildRealm
-	end
-
 	function module:ProcessDeposit()
 		if not self:IsInCommunityGuild() then
 			Core:Print(L.warning_not_in_community_guild)
@@ -132,7 +124,7 @@ do
 		self.deposit = nil
 
 		local character = self:UnitNameAndRealm("player")
-		local guild = getGuildNameAndRealm()
+		local guild = self:GuildNameAndRealm("player")
 		local globalDB = self:GetGlobalDB()
 		globalDB.deposits[#globalDB.deposits+1] = {
 			timestamp = GetServerTime(),

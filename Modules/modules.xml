@@ -5,4 +5,5 @@
 	<Script file="GuildBank.lua" />
 	<Script file="Trade.lua" />
 	<Script file="NotInCommunityGuild.lua" />
+	<Script file="GoldTracker.lua" />
 </Ui>
