@@ -126,6 +126,7 @@ function module:Show()
 	end
 	local db = self:GetProfileDB()
 	local window = AceGUI:Create("Window")
+	addon.ForceWidgetToScreenBounds(db.uiStatus)
 	window:SetStatusTable(db.uiStatus)
 	window:SetCallback("OnClose", function()
 		self:Hide()

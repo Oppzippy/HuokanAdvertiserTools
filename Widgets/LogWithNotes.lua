@@ -43,7 +43,7 @@ end
 -- It accepts the reference so the db will be updated directly on status changes
 function LogWithNotesPrototype:SetStatusTable(statusTable)
 	self.statusTable = statusTable
-	self:ForceWindowToScreenBounds()
+	addon.ForceWidgetToScreenBounds(self.statusTable)
 	self.frames.window:SetStatusTable(statusTable)
 end
 
@@ -67,47 +67,13 @@ function LogWithNotesPrototype:Show()
 		self.callbacks:Fire("OnClose")
 	end)
 
-	self:ForceWindowToScreenBounds()
+	addon.ForceWidgetToScreenBounds(self.statusTable)
 
 	window:SetLayout("flow")
 
 	self.frames.scrollContainer, self.frames.scrollFrame = self:CreateScrollFrame()
 
 	window:AddChild(self.frames.scrollContainer)
-end
-
-function LogWithNotesPrototype:ForceWindowToScreenBounds()
-	if not self.statusTable then return end
-
-	local maxWidth = UIParent:GetWidth()
-	local maxHeight = UIParent:GetHeight()
-
-	-- wider than screen
-	if self.statusTable.width > maxWidth then
-		self.statusTable.width = maxWidth
-	end
-	-- taller than screen
-	if self.statusTable.height > maxHeight then
-		self.statusTable.height = maxHeight
-	end
-	if self.statusTable.left and self.statusTable.top then
-		-- left of screen
-		if self.statusTable.left < 0 then
-			self.statusTable.left = 0
-		end
-		-- right of screen
-		if self.statusTable.left > maxWidth - self.statusTable.width  then
-			self.statusTable.left = maxWidth - self.statusTable.width
-		end
-		-- bottom of screen
-		if self.statusTable.top < self.statusTable.height then
-			self.statusTable.top = self.statusTable.height
-		end
-		-- top of screen
-		if self.statusTable.top > maxHeight then
-			self.statusTable.top = maxHeight
-		end
-	end
 end
 
 function LogWithNotesPrototype:Release()
