@@ -15,7 +15,8 @@ L.help_desc = [[
 /hat options - Open options
 /hat version - Check what version of Huokan Advertiser Tools is installed
 /hat guildbank - Show guild bank deposit log
-/hat guildbank resetui - Reset the position of the guild bank deposit log UI to the center of the screen
+/hat trade - Show the trade log
+/hat goldtracker - Show the gold tracker
 ]]
 -- GuildBank module
 L.guild_bank = "Guild Bank"
