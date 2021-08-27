@@ -13,6 +13,7 @@ module.options = {
 		includeGuildBanksIfGuildLeader = {
 			name = L.include_guild_banks_if_guild_leader,
 			type = "toggle",
+			width = "full",
 			order = 2,
 		},
 	},
