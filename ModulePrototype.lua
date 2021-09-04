@@ -54,8 +54,17 @@ end
 function ModulePrototype:UnitNameAndRealm(unit)
 	local name, realm = UnitName(unit)
 	if realm == nil then
-		realm = GetRealmName()
+		realm = GetNormalizedRealmName()
 	end
+	if name and realm then
+		return name .. "-" .. realm
+	end
+	return ""
+end
+
+function ModulePrototype:PlayerNameAndRealmNotNormalized()
+	local name = UnitName("player")
+	local realm = GetRealmName()
 	if name and realm then
 		return name .. "-" .. realm
 	end
@@ -68,7 +77,7 @@ function ModulePrototype:GuildNameAndRealm(unit)
 		return
 	end
 	if not realm then
-		realm = GetRealmName()
+		realm = GetNormalizedRealmName()
 	end
 	return guildName .. "-" .. realm
 end

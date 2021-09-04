@@ -92,7 +92,7 @@ end
 
 function module:SetCharacterValue(key, value)
 	local globalDB = self:GetGlobalDB()
-	local playerName = self:UnitNameAndRealm("player")
+	local playerName = self:PlayerNameAndRealmNotNormalized()
 	local entry = globalDB.characters[playerName]
 	if entry then
 		entry[key] = value
