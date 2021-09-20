@@ -29,6 +29,7 @@ addon.communityGuilds = {
 	["huokan bank durotan-durotan"] = true,
 	["huokan bank lightning-lightning'sblade"] = true,
 	["huokan bank turalyon-turalyon"] = true,
+	["huokan bank nagrandh-nagrand"] = true,
 	-- Alliance
 	["huokanbankstormrage-stormrage"] = true,
 	["huokanbankblackhand-blackhand"] = true,
@@ -43,4 +44,6 @@ addon.communityGuilds = {
 	["huokanbanksilvermoon-silvermoon"] = true,
 	["huokanbankscilla-scilla"] = true,
 	["huokan bank quelthalasa-quel'thalas"] = true,
+	["huokan bank alightbringe-lightbringer"] = true,
+	["huokan bank adathremar-dath'remar"] = true,
 }
