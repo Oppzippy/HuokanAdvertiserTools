@@ -30,6 +30,7 @@ addon.communityGuilds = {
 	["huokan bank lightning-lightning'sblade"] = true,
 	["huokan bank turalyon-turalyon"] = true,
 	["huokan bank nagrandh-nagrand"] = true,
+	["huokan bank hagamaggan-agamaggan"] = true,
 	-- Alliance
 	["huokanbankstormrage-stormrage"] = true,
 	["huokanbankblackhand-blackhand"] = true,
