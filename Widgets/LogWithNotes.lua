@@ -14,6 +14,7 @@ function addon.CreateLogWithNotes()
 	logWithNotes.frames = {}
 	logWithNotes.items = {}
 	logWithNotes.callbacks = CallbackHandler:New(logWithNotes)
+	logWithNotes.maxDisplayItems = 100
 	logWithNotes:Show()
 	return logWithNotes
 end
@@ -53,6 +54,10 @@ end
 
 function LogWithNotesPrototype:SetTitle(title)
 	self.frames.window:SetTitle(title)
+end
+
+function LogWithNotesPrototype:SetMaxDisplayItems(maxDisplayItems)
+	self.maxDisplayItems = maxDisplayItems or math.huge
 end
 
 function LogWithNotesPrototype:Show()
@@ -112,7 +117,9 @@ function LogWithNotesPrototype:DoLayout()
 	-- Don't re-run layout every time a widget is added during the loop
 	self.frames.scrollFrame:PauseLayout()
 	self.frames.scrollFrame:ReleaseChildren()
-	for i, item in ipairs(self.items) do
+	local numItems = #self.items
+	for i = 1, math.min(numItems, self.maxDisplayItems) do
+		local item = self.items[i]
 		local frame = self:RenderLogItem(item, {
 			unmodifiable = i ~= 1,
 		})
