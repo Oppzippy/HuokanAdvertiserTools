@@ -25,13 +25,16 @@ addon.communityGuilds = {
 	["huokan bank quelthalas-quel'thalas"] = true,
 	["huokan bank zuljin-zul'jin"] = true,
 	["huokanbankkj-kil'jaeden"] = true,
-	["huokanbankwyrmrest-wyrmrestaccord"] = true,
+	["huokanbankwrymrest-wyrmrestaccord"] = true,
 	["huokan bank durotan-durotan"] = true,
 	["huokan bank lightning-lightning'sblade"] = true,
 	["huokan bank turalyon-turalyon"] = true,
 	["huokan bank nagrandh-nagrand"] = true,
 	["huokan bank hagamaggan-agamaggan"] = true,
 	["huokan bank andorhal-andorhal"] = true,
+	["huokan bank eluneh-elune"] = true,
+	["huokan bank boulderfist-boulderfist"] = true,
+	["huokan bank nesingwary-nesingwary"] = true,
 	-- Alliance
 	["huokanbankstormrage-stormrage"] = true,
 	["huokanbankblackhand-blackhand"] = true,
@@ -49,4 +52,5 @@ addon.communityGuilds = {
 	["huokan bank alightbringe-lightbringer"] = true,
 	["huokan bank adathremar-dath'remar"] = true,
 	["huokan bank akelthuzad-kel'thuzad"] = true,
+	["huokan bank ghostlands-ghostlands"] = true,
 }
