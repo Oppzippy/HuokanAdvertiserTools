@@ -35,6 +35,7 @@ addon.communityGuilds = {
 	["huokan bank eluneh-elune"] = true,
 	["huokan bank boulderfist-boulderfist"] = true,
 	["huokan bank nesingwary-nesingwary"] = true,
+	["huokan bank akamah-akama"] = true,
 	-- Alliance
 	["huokanbankstormrage-stormrage"] = true,
 	["huokanbankblackhand-blackhand"] = true,
@@ -53,4 +54,7 @@ addon.communityGuilds = {
 	["huokan bank adathremar-dath'remar"] = true,
 	["huokan bank akelthuzad-kel'thuzad"] = true,
 	["huokan bank ghostlands-ghostlands"] = true,
+	["huokan bank dentarga-dentarg"] = true,
+	["huokan bank korgatha-korgath"] = true,
+	["huokan bank alleriaa-alleria"] = true,
 }
