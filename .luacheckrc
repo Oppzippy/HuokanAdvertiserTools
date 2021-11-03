@@ -61,4 +61,5 @@ globals = {
 	"StaticPopup_Show",
 	"YES",
 	"NO",
+	"LE_GAME_ERR_TRADE_COMPLETE",
 }

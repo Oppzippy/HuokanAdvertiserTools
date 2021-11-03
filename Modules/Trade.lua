@@ -46,7 +46,7 @@ function module:TRADE_ACCEPT_UPDATE()
 end
 
 function module:UI_INFO_MESSAGE(_, messageType)
-	if messageType == 229 and self:IsInCommunityGuild() then -- Trade complete.
+	if messageType == LE_GAME_ERR_TRADE_COMPLETE and self:IsInCommunityGuild() then -- Trade complete.
 		if self.tradeCopper ~= nil and self.tradeCopper ~= 0 then
 			local globalDB = self:GetGlobalDB()
 			globalDB.trades[#globalDB.trades+1] = {
