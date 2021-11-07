@@ -37,6 +37,8 @@ addon.communityGuilds = {
 	["huokan bank nesingwary-nesingwary"] = true,
 	["huokan bank akamah-akama"] = true,
 	["huokan bank ghostlandsh-ghostlands"] = true,
+	["huokanbankanubarak-anub'arak"] = true,
+	["huokanbankazgalor-azgalor"] = true,
 	-- Alliance
 	["huokanbankstormrage-stormrage"] = true,
 	["huokanbankblackhand-blackhand"] = true,
@@ -61,4 +63,6 @@ addon.communityGuilds = {
 	["huokan bank aerie peaka-aeriepeak"] = true,
 	["huokan bank lightninga-lightning'sblade"] = true,
 	["huokan bank akamaa-akama"] = true,
+	["huokanbankagamaggana-agamaggan"] = true,
+	["huokanbankbonechewera-bonechewer"] = true,
 }
