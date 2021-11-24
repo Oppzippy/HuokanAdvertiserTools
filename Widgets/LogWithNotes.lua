@@ -136,8 +136,10 @@ function LogWithNotesPrototype:RenderLogItem(item, options)
 		options = {}
 	end
 	local container = AceGUI:Create("InlineGroup")
-	-- TODO convert to eastern time
-	container:SetTitle(date("!%Y-%m-%d %I:%M%p UTC", item.timestamp))
+
+	local timezone = addon.luatz.get_tz("America/New_York")
+	local easternTime = timezone:localize(item.timestamp)
+	container:SetTitle(date("!%Y-%m-%d %I:%M%p Eastern Time", easternTime))
 	container:SetLayout("Flow")
 
 	local label = AceGUI:Create("Label")
