@@ -1,0 +1,15 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<Script file="namespace.lua" />
+	<Script file="zoneinfo\America\New_York.lua" />
+
+	<Script file="mockfiledescriptor.lua" />
+	<Script file="gettime.lua" />
+	<Script file="strftime.lua" />
+	<Script file="timetable.lua" />
+	<Script file="parse.lua" />
+	<Script file="tzinfo.lua" />
+	<Script file="tzfile.lua" />
+	<Script file="tzcache.lua" />
+	<Script file="init.lua" />
+</Ui>

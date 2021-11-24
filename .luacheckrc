@@ -62,4 +62,5 @@ globals = {
 	"YES",
 	"NO",
 	"LE_GAME_ERR_TRADE_COMPLETE",
+	"time",
 }
