@@ -39,6 +39,7 @@ addon.communityGuilds = {
 	["huokan bank ghostlandsh-ghostlands"] = true,
 	["huokanbankanubarak-anub'arak"] = true,
 	["huokanbankazgalor-azgalor"] = true,
+	["huokan bank draka-draka"] = true,
 	-- Alliance
 	["huokanbankstormrage-stormrage"] = true,
 	["huokanbankblackhand-blackhand"] = true,
