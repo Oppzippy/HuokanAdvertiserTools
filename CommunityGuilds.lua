@@ -66,4 +66,5 @@ addon.communityGuilds = {
 	["huokan bank akamaa-akama"] = true,
 	["huokanbankagamaggana-agamaggan"] = true,
 	["huokanbankbonechewera-bonechewer"] = true,
+	["huokan bank ghostlandsa-ghostlands"] = true,
 }
