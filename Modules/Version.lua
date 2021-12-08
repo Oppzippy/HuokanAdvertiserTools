@@ -3,7 +3,7 @@ local _, addon = ...
 local Core, L = addon.Core, addon.L
 local module = Core:NewModule("Version", addon.ModulePrototype, "AceEvent-3.0", "AceComm-3.0")
 
-local VERSION = 29
+local VERSION = 30
 local COMM_PREFIX = "HAT_Version"
 
 function module:OnInitialize()
