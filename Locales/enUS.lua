@@ -20,7 +20,7 @@ L.help_desc = [[
 ]]
 -- GuildBank module
 L.guild_bank = "Guild Bank"
-L.huokan_bank_deposits_for_user = "%s's Huokan Bank Deposits"
+L.huokan_bank_deposits_for_user = "%s's Huokan Bank Deposits (%s)"
 L.deposit_timed_out = "Guild bank deposit timed out."
 L.failed_to_verify_gold_change = "Failed to verify gold change."
 L.failed_to_verify_deposit = "Failed to verify deposit."

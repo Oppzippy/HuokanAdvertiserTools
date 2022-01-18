@@ -149,7 +149,7 @@ function module:Show()
 	self.logFrame:SetStatusTable(db.uiStatus)
 	self.logFrame:EnableResize(not db.lockedSize)
 
-	self.logFrame:SetTitle(L.huokan_bank_deposits_for_user:format(addon.discordTag or "Unknown"))
+	self.logFrame:SetTitle(L.huokan_bank_deposits_for_user:format(addon.discordTag or "Unknown", Core:GetVersion()))
 	self:RenderDeposits()
 end
 
